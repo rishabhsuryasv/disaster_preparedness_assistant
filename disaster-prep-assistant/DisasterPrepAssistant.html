@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Disaster Preparedness Assistant - India</title>
+<style>
+:root{--p:#1d6fd8;--p-dark:#0b3d8f;--p-soft:#e6f0fd;--bg:#f1f5f9;--ink:#1e293b;--mut:#64748b;--line:#e2e8f0}
+body.cyclone{--p:#0f8b8d;--p-dark:#1f3a4d;--p-soft:#e0f4f4;--bg:#eef2f4}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,"Segoe UI","Nirmala UI",Latha,"Vrinda",Roboto,sans-serif;background:var(--bg);color:var(--ink);transition:background .4s}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+.sos{background:#dc2626;color:#fff;position:sticky;top:0;z-index:30;animation:flash 1.4s infinite}
+@keyframes flash{0%,100%{background:#dc2626}50%{background:#7f1111}}
+.sos .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-top:8px;padding-bottom:8px}
+.sos b{letter-spacing:.04em;font-size:.95rem}
+.sos .dials{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.dial{background:#fff;color:#b91c1c;font-weight:800;text-decoration:none;border-radius:999px;padding:5px 12px;font-size:.85rem;white-space:nowrap}
+.dial:hover{background:#fee2e2}
+@media(prefers-reduced-motion:reduce){.sos,.fab::before{animation:none}}
+header{background:linear-gradient(135deg,var(--p),var(--p-dark));color:#fff;transition:background .4s}
+header .wrap{padding-top:18px;padding-bottom:20px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+h1{margin:0;font-size:1.7rem}
+header p{margin:4px 0 0;opacity:.92}
+.langsel{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:10px;padding:7px 10px;font:inherit;font-weight:700;width:auto;cursor:pointer}
+.langsel option{color:#111}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:14px}
+.pill{display:flex;align-items:center;gap:8px;font-size:.85rem;background:rgba(255,255,255,.16);padding:6px 14px;border-radius:999px}
+.mode{font-weight:700;gap:10px}
+.mode span{cursor:pointer;opacity:.6}
+body:not(.cyclone) #mFlood,body.cyclone #mCyc{opacity:1}
+.switch{position:relative;width:54px;height:28px;background:rgba(255,255,255,.35);border-radius:999px;cursor:pointer;border:0;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform .25s}
+body.cyclone .switch::after{transform:translateX(26px)}
+.dot{width:10px;height:10px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.off .dot{background:#fbbf24}
+nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:46px;z-index:20}
+nav .wrap{display:flex;overflow-x:auto}
+nav button{border:0;background:none;padding:14px 16px;font:inherit;font-weight:700;font-size:.92rem;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--p);border-color:var(--p)}
+main{padding:24px 16px 110px}
+section{display:none}section.on{display:block}
+h2{margin:0 0 12px;font-size:1.3rem}h3{margin:0 0 8px;font-size:1.05rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.grp{font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:20px 0 8px}
+.ct{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ct small{display:block;color:var(--mut)}.ct .src{color:#047857;margin-top:3px}.ct.mine{border-color:var(--p);background:var(--p-soft)}
+.call{background:#dc2626;color:#fff;text-decoration:none;font-weight:800;border-radius:10px;padding:9px 12px;white-space:nowrap;font-size:.9rem}
+input,textarea,select{font:inherit;border:1px solid #cbd5e1;border-radius:10px;padding:9px 11px;width:100%;background:#fff;color:var(--ink)}
+label{font-size:.85rem;display:block;margin-bottom:10px}label input,label textarea,label select{margin-top:4px}
+.btn{background:var(--p);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.gray{background:#64748b}.btn.red{background:#dc2626}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;background:#dbe2ea;border-radius:10px;padding:4px;margin:6px 0 14px}
+.seg button{border:0;background:none;padding:7px 18px;border-radius:7px;font:inherit;font-weight:700;color:#475569;cursor:pointer}
+.seg button.on{background:#fff;color:var(--p);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.prog{height:12px;background:#dbe2ea;border-radius:99px;overflow:hidden;margin:6px 0 14px}
+.prog div{height:100%;background:var(--p);width:0;transition:width .3s}
+.item{display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;cursor:pointer}
+.item input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--p);flex-shrink:0}
+.item.done span{text-decoration:line-through;opacity:.55}
+details{margin-bottom:10px}summary{font-weight:700;cursor:pointer}
+details ol{margin:10px 0 0;padding-left:22px;color:#334155;line-height:1.6}
+.two{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+@media(max-width:700px){.two{grid-template-columns:1fr}.sos .dials{margin-left:0}h1{font-size:1.35rem}nav{position:static}}
+.pc{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.pc button{background:none;border:0;font-size:1.3rem;color:#94a3b8;cursor:pointer}
+.tip{background:var(--p-soft);border-left:4px solid var(--p);padding:10px 14px;border-radius:8px;font-size:.9rem;margin-bottom:14px}
+.saved{color:#047857;font-size:.85rem;margin-left:8px}
+.muted{color:var(--mut);font-size:.82rem}
+/* map */
+#mapview{height:400px;border-radius:14px;border:1px solid var(--line);background:#dbe7f0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:6px 14px;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer}
+.chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;margin:8px 0}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.badge{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:800;color:#fff}
+.sev-red{background:#dc2626}.sev-orange{background:#f97316}.sev-yellow{background:#ca8a04}
+.links a{display:inline-block;margin:0 10px 6px 0;color:var(--p);font-weight:700}
+.sms{background:#0f172a;color:#e2e8f0;border-radius:18px;padding:12px 14px;margin-top:12px;font-size:.9rem;max-width:420px;display:none}
+.sms small{display:block;color:#94a3b8;margin-bottom:4px}
+.chk{display:inline-flex;align-items:center;gap:6px;margin-right:14px}.chk input{width:auto;margin:0}
+.warn{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:10px 12px;font-size:.82rem;margin-top:12px;line-height:1.5}
+/* floating SOS */
+.fab{position:fixed;right:16px;bottom:16px;z-index:2000;width:76px;height:76px;border-radius:50%;background:#dc2626;color:#fff;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;box-shadow:0 6px 18px rgba(0,0,0,.35);border:3px solid #fff}
+.fab::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:3px solid #dc2626;animation:pulse 1.5s infinite}
+@keyframes pulse{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.3);opacity:0}}
+.fab b{font-size:1.25rem;line-height:1}.fab small{font-size:.8rem;font-weight:800}
+/* language overlay */
+#langov{position:fixed;inset:0;z-index:3000;background:linear-gradient(135deg,#0b3d8f,#0f8b8d);display:none;align-items:center;justify-content:center;padding:20px}
+#langov .box{background:#fff;border-radius:20px;padding:26px;max-width:420px;width:100%;text-align:center}
+#langov h2{font-size:1.4rem}
+#langov .lbtn{display:block;width:100%;margin:10px 0;padding:14px;font:inherit;font-size:1.15rem;font-weight:800;border:2px solid #cbd5e1;border-radius:12px;background:#fff;cursor:pointer}
+#langov .lbtn:hover{border-color:#1d6fd8;background:#e6f0fd}
+</style>
+</head>
+<body>
+
+<div id="langov"><div class="box">
+  <div style="font-size:2.4rem">&#127760;</div>
+  <h2>Choose your language / भाषा चुनें<br>மொழி / ভাষা</h2>
+  <div id="langbtns"></div>
+</div></div>
+
+<div class="sos" role="alert">
+  <div class="wrap">
+    <b>&#9888; <span data-i18n="sos_title"></span></b>
+    <div class="dials">
+      <a class="dial" href="tel:112" data-i18n="d112"></a>
+      <a class="dial" href="tel:100" data-i18n="d100"></a>
+      <a class="dial" href="tel:108" data-i18n="d108"></a>
+      <a class="dial" href="tel:101" data-i18n="d101"></a>
+      <a class="dial" href="tel:9711077372" data-i18n="dndrf"></a>
+      <a class="dial" href="tel:1078" data-i18n="d1078"></a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div><h1 data-i18n="title"></h1><p id="tagline"></p></div>
+      <select id="langsel" class="langsel" aria-label="Language"></select>
+    </div>
+    <div class="bar">
+      <div class="pill mode"><span id="mFlood">&#127754; <i data-i18n="flood_mode" style="font-style:normal"></i></span>
+        <button class="switch" id="modeSwitch" role="switch" aria-label="Flood / Cyclone"></button>
+        <span id="mCyc">&#127744; <i data-i18n="cyc_mode" style="font-style:normal"></i></span></div>
+      <div class="pill" id="net"><i class="dot"></i><span id="netTxt"></span></div>
+      <div class="pill"><i class="dot"></i><span id="stTxt"></span></div>
+    </div>
+  </div>
+</header>
+
+<nav><div class="wrap" id="tabs">
+  <button data-t="contacts" class="on" data-i18n="tab_contacts"></button>
+  <button data-t="map" data-i18n="tab_map"></button>
+  <button data-t="check" data-i18n="tab_check"></button>
+  <button data-t="guide" data-i18n="tab_guide"></button>
+  <button data-t="plan" data-i18n="tab_plan"></button>
+</div></nav>
+
+<main class="wrap">
+  <section id="contacts" class="on">
+    <h2 data-i18n="contacts_h"></h2>
+    <input id="q" type="search" data-i18n-ph="search_ph" style="max-width:380px;margin-bottom:6px">
+    <div id="clist"></div>
+    <p class="muted" data-i18n="contacts_note"></p>
+  </section>
+
+  <section id="map">
+    <h2 data-i18n="map_h"></h2>
+    <div class="tip" id="dsrc"></div>
+    <div class="chips" id="filters">
+      <button class="chip on" data-f="all" data-i18n="f_all"></button>
+      <button class="chip" data-f="flood" data-i18n="f_flood"></button>
+      <button class="chip" data-f="cyclone" data-i18n="f_cyc"></button>
+      <button class="chip" data-f="other" data-i18n="f_other"></button>
+      <button class="chip" id="refresh" data-i18n="refresh" style="margin-left:auto"></button>
+      <button class="chip on" id="locate" data-i18n="locate">&#128205;</button>
+    </div>
+    <div id="mapbox"><div id="mapview"></div></div>
+    <div class="legend">
+      <span><i class="sw sev-red"></i><i data-i18n="sev_red" style="font-style:normal"></i></span>
+      <span><i class="sw sev-orange"></i><i data-i18n="sev_orange" style="font-style:normal"></i></span>
+      <span><i class="sw sev-yellow"></i><i data-i18n="sev_yellow" style="font-style:normal"></i></span>
+    </div>
+    <p id="nearest" class="muted" style="font-weight:700"></p>
+
+    <h3 style="margin-top:18px" data-i18n="alerts_list"></h3>
+    <div class="grid" id="alerts"></div>
+
+    <h3 style="margin-top:22px" data-i18n="official"></h3>
+    <div class="links">
+      <a href="https://sachet.ndma.gov.in" target="_blank" rel="noopener">NDMA SACHET</a>
+      <a href="https://mausam.imd.gov.in" target="_blank" rel="noopener">IMD Mausam</a>
+      <a href="https://ffs.india-water.gov.in" target="_blank" rel="noopener">CWC Flood Forecast</a>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2 data-i18n="sms_h"></h2>
+      <p class="muted" data-i18n="sms_note"></p>
+      <form id="sform" class="two" style="gap:10px 16px">
+        <label><span data-i18n="sms_phone"></span><input name="phone" inputmode="numeric" maxlength="10" placeholder="98XXXXXXXX" required></label>
+        <label><span data-i18n="sms_state"></span><select name="state"></select></label>
+        <div style="grid-column:1/-1"><div class="muted" data-i18n="sms_types" style="margin-bottom:6px"></div>
+          <label class="chk"><input type="checkbox" name="flood" checked> <span data-i18n="f_flood"></span></label>
+          <label class="chk"><input type="checkbox" name="cyclone" checked> <span data-i18n="f_cyc"></span></label></div>
+        <div class="row" style="grid-column:1/-1">
+          <button class="btn" data-i18n="subscribe"></button>
+          <button type="button" class="btn gray" id="unsub" data-i18n="unsub"></button>
+        </div>
+      </form>
+      <p id="sstatus" style="font-weight:700;color:#047857"></p>
+      <div class="row">
+        <button type="button" class="btn red" id="simulate" data-i18n="simulate"></button>
+        <a class="btn gray" id="smslink" href="#" data-i18n="send_sms"></a>
+      </div>
+      <div class="sms" id="smsbox"></div>
+      <div class="warn" data-i18n="sms_real"></div>
+    </div>
+  </section>
+
+  <section id="check">
+    <h2><span data-i18n="check_h"></span> &mdash; <span class="mname"></span></h2>
+    <div class="muted" data-i18n="check_note"></div>
+    <div class="seg" id="phases"><button data-p="before" class="on" data-i18n="before"></button><button data-p="during" data-i18n="during"></button><button data-p="after" data-i18n="after"></button></div>
+    <div style="display:flex;justify-content:space-between;font-weight:600;font-size:.9rem"><span id="plabel"></span><span id="ppct"></span></div>
+    <div class="prog"><div id="pbar"></div></div>
+    <div id="items"></div>
+    <button class="btn gray" id="reset" data-i18n="reset"></button>
+  </section>
+
+  <section id="guide">
+    <h2><span data-i18n="guide_h"></span> &mdash; <span class="mname"></span></h2>
+    <div class="tip" id="gtip"></div>
+    <div id="glist"></div>
+  </section>
+
+  <section id="plan">
+    <h2 data-i18n="plan_h"></h2>
+    <div class="two">
+      <form class="card" id="pform">
+        <label><span data-i18n="city"></span><input name="city" maxlength="80"></label>
+        <label><span data-i18n="meet"></span><input name="meet" maxlength="200"></label>
+        <label><span data-i18n="shelter"></span><input name="shelter" maxlength="200"></label>
+        <label><span data-i18n="notes"></span><textarea name="notes" rows="3" maxlength="500"></textarea></label>
+        <button class="btn" data-i18n="save_plan"></button><span class="saved" id="saved"></span>
+      </form>
+      <div class="card">
+        <b data-i18n="my_pc"></b>
+        <form id="cform" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0">
+          <input name="name" data-i18n-ph="name" required maxlength="80">
+          <input name="num" data-i18n-ph="phone" required maxlength="20" inputmode="tel">
+          <input name="rel" data-i18n-ph="relation" maxlength="40">
+          <button class="btn" data-i18n="add"></button>
+        </form>
+        <div id="plist"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3 data-i18n="backup_h"></h3>
+      <p class="muted" data-i18n="backup_note"></p>
+      <div class="row">
+        <button class="btn gray" id="export" data-i18n="export"></button>
+        <label class="btn gray" style="margin:0;cursor:pointer"><span data-i18n="import"></span><input type="file" id="import" accept="application/json" hidden></label>
+        <span class="saved" id="impmsg"></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<a class="fab" href="tel:112" aria-label="SOS - call 112 now" title="SOS - 112"><b>SOS</b><small>112</small></a>
+
+<script>
+const DATA = {"contacts":[{"id":"c1","group":"National","name":"National Emergency Number (single window)","number":"112","note":"Police, fire, ambulance - works from any phone, even without balance","source":"Govt. of India ERSS"},{"id":"c2","group":"National","name":"NDRF Control Room (Delhi)","number":"011-24363260","note":"National Disaster Response Force, 24x7","source":"ndrf.gov.in"},{"id":"c3","group":"National","name":"NDRF Helpline (mobile)","number":"9711077372","note":"Rescue requests during floods / cyclones","source":"ndrf.gov.in"},{"id":"c4","group":"National","name":"NDMA Disaster Management Helpline","number":"1078","note":"National Disaster Management Authority","source":"ndma.gov.in"},{"id":"c5","group":"National","name":"Indian Coast Guard Distress","number":"1554","note":"Coastal & sea emergencies, fishermen in distress","source":"indiancoastguard.gov.in"},{"id":"c6","group":"Medical & Police","name":"Police","number":"100","note":"Local police control room","source":"Govt. of India"},{"id":"c7","group":"Medical & Police","name":"Fire Service","number":"101","note":"Fire & rescue","source":"Govt. of India"},{"id":"c8","group":"Medical & Police","name":"Ambulance","number":"102","note":"Patient transport (pregnancy / child care)","source":"NHM"},{"id":"c9","group":"Medical & Police","name":"Emergency Ambulance","number":"108","note":"Free emergency ambulance in most states","source":"NHM"},{"id":"c10","group":"State & District","name":"State Disaster Helpline","number":"1070","note":"State Emergency Operations Centre (most states)","source":"State SDMAs"},{"id":"c11","group":"State & District","name":"District Emergency Operations Centre","number":"1077","note":"Collectorate control room, flood relief & evacuation","source":"District Administration"},{"id":"c12","group":"Support","name":"Women Helpline","number":"1091","note":"Safety of women in relief camps / transit","source":"Govt. of India"},{"id":"c13","group":"Support","name":"Child Helpline","number":"1098","note":"Missing or separated children","source":"CHILDLINE India"},{"id":"c14","group":"Support","name":"Railway Helpline","number":"139","note":"Train cancellations & rescue at stations","source":"Indian Railways"},{"id":"c15","group":"Support","name":"National Highway Helpline","number":"1033","note":"Road blocks, stranded vehicles on highways","source":"NHAI"}],"checklists":{"flood":{"before":["Know your area's flood risk and the nearest high ground / relief camp","Prepare an emergency kit: water (3 L/person/day), dry food, torch, radio, power bank, first-aid","Keep documents (ID, insurance, land papers, medical records) in a waterproof pouch","Save emergency numbers on your phone and on paper","Agree a family meeting point and plan an evacuation route","Move valuables, electronics and chemicals to upper floors","Keep a month's supply of regular medicines","Fill vehicle fuel tank and charge all phones and power banks","Install the IMD / state alert apps (e.g. Mausam, Umang) and follow warnings","Know how to switch off the main electricity and gas supply"],"during":["Move to higher ground immediately when told to evacuate - do not wait","Switch off electricity at the main switch and shut gas cylinders","Never walk, swim or drive through flood water (15 cm can knock you down)","Stay away from power lines, drains and open manholes","Drink only boiled or chlorinated water; avoid flood-water contact","Keep listening to radio / official alerts for updates","Help children, elderly, pregnant women and disabled people first","If trapped, climb to the roof, signal with a bright cloth or torch and call 112 / 1077","Carry your emergency kit and documents when leaving"],"after":["Return home only when authorities declare it safe","Check for structural damage, cracks and gas leaks before entering","Do not switch on electricity until an electrician has checked the wiring","Photograph damage for insurance and relief claims","Throw away food that touched flood water; boil all drinking water","Clean and disinfect walls and floors; watch for snakes and insects","Get vaccinated / treated for cuts, diarrhoea or fever (leptospirosis, cholera, dengue risk)","Register for government relief at the local Tehsil / Panchayat office","Check on neighbours, especially elderly people living alone"]},"cyclone":{"before":["Track IMD cyclone warnings (Yellow / Orange / Red) and heed evacuation advisories","Identify your nearest cyclone shelter and a safe route to it","Secure the roof, doors and windows; trim loose branches near the house","Store 7 days of dry food and drinking water","Keep radio, torch, spare batteries and power bank ready","Keep documents and cash in a waterproof bag","Fishermen: bring boats and nets to safe harbour and do not venture to sea","Secure or bring in loose objects, hoardings and cattle","Charge phones and fill fuel tank"],"during":["Stay indoors, away from windows and glass, in the strongest room","Turn off electricity and gas; avoid using electrical appliances","If your house is unsafe, go to the designated cyclone shelter before winds rise","Do not go out during the calm 'eye' of the storm - winds return suddenly","Keep listening to battery radio for official instructions","Stay away from beaches, rivers and low coastal areas (storm surge)","Use a mattress or blankets to protect yourself if roof starts to fail","Call 112 or 1077 for life-threatening emergencies only"],"after":["Stay in shelter until officials say the cyclone has fully passed","Avoid fallen power lines, broken poles and damaged buildings","Beware of flooded roads and uprooted trees","Drink only safe water; boil it if unsure","Document damage with photos for relief and insurance","Provide first aid to injured people and call 108 when needed","Do not enter the sea until the warning is withdrawn (fishermen)","Help with community clean-up and check on neighbours"]}},"guidelines":{"flood":[{"title":"1. Get the warning and stay informed","steps":["Monitor Central Water Commission and IMD alerts, local radio and your SDMA's messages.","Understand terms: 'Watch' = flooding possible, 'Warning' = flooding happening or imminent.","Do not rely on rumours; confirm through official channels."]},{"title":"2. Prepare your home and family","steps":["Raise valuables and electrical items above expected water level.","Block drains and toilets with sandbags / sealed plastic to prevent backflow.","Pack the emergency kit and brief everyone on the evacuation plan."]},{"title":"3. Evacuate early","steps":["Leave as soon as authorities advise. Roads can flood within minutes.","Switch off power and gas, lock the house and take your kit.","Use designated routes; never take shortcuts through water.","Go to the nearest relief camp or higher ground and register with the camp in-charge."]},{"title":"4. If you are trapped","steps":["Move to the highest safe point (upper floor / roof). Do not go into a closed attic.","Call 112, 1077 or NDRF 9711077372 - share your location and number of people.","Signal with a torch, whistle or bright cloth.","Stay together and conserve phone battery."]},{"title":"5. Driving & walking safety","steps":["Turn around, don't drown - 30 cm of water can float a car.","If your vehicle stalls in rising water, abandon it and move to high ground.","Avoid walking through moving water and stay away from bridges over fast water."]},{"title":"6. Health & water safety","steps":["Boil water for at least 1 minute or use chlorine tablets.","Wash hands with soap; avoid flood water contact with wounds.","Seek medical help for fever, diarrhoea, or skin infections."]},{"title":"7. Recovery","steps":["Return only when declared safe; inspect for structural damage.","Get wiring checked before restoring power.","Document losses and apply for relief / insurance."]}],"cyclone":[{"title":"1. Understand the warning stages","steps":["IMD issues Pre-cyclone Watch (72 h), Cyclone Alert (48 h), Warning (24 h) and Post-landfall Outlook.","Colour codes: Green (no action), Yellow (be aware), Orange (be prepared), Red (take action).","Follow your district administration's evacuation advisories."]},{"title":"2. Secure your home","steps":["Strengthen the roof with ropes / weights; close and bolt doors and windows.","Remove loose objects from the courtyard and roof.","Cut weak branches; park vehicles in a safe, sheltered spot."]},{"title":"3. Build your kit","steps":["Water, dry food, medicines, first-aid, torch, radio, batteries, power bank.","Waterproof pouch with documents, cash and a list of contacts.","Blankets, clothes, hygiene supplies and baby / elderly care items."]},{"title":"4. Evacuate to a cyclone shelter","steps":["Move to a pucca building / cyclone shelter in low-lying coastal zones.","Go before the winds pick up; roads may become impassable.","Carry the kit, keep family together, register at the shelter."]},{"title":"5. During the storm","steps":["Stay inside in the strongest, innermost room away from windows.","Do not step outside during the eye of the cyclone.","Keep a battery radio on for updates; avoid candles - use torches."]},{"title":"6. At sea / coast","steps":["Fishermen must return to harbour on first warning.","Move boats and nets to safe places; do not stay near the shore.","Beware of storm surge - sea water can rush several kilometres inland."]},{"title":"7. After the cyclone","steps":["Wait for the 'all clear' from authorities.","Avoid fallen wires and weakened structures.","Give first aid, call 108 for serious injuries, and share news of missing people with 112."]}]}};
+const UI = {"langs":[["en","English"],["hi","हिन्दी"],["ta","தமிழ்"],["bn","বাংলা"]],"en":{"lang_pick":"Choose your language","lang_sub":"You can change it any time from the top of the page.","lang_go":"Continue","title":"Disaster Preparedness Assistant","tag_flood":"Floods: stay informed, move early, never walk or drive through flood water.","tag_cyclone":"Cyclones: track IMD alerts, secure your home, shelter early, stay in until the all-clear.","tip_flood":"Golden rule: 15 cm of moving water can knock you down. Turn around, don't drown.","tip_cyclone":"Golden rule: the calm 'eye' is not the end. Winds return suddenly from the opposite side.","sos_title":"SOS - EMERGENCY?","d112":"112 All-in-one","d100":"100 Police","d108":"108 Ambulance","d101":"101 Fire","dndrf":"NDRF","d1078":"1078 NDMA","sos_btn":"Call 112 now","flood_mode":"Flood Mode","cyc_mode":"Cyclone Mode","online":"Online - guides saved for offline use","offline":"OFFLINE - guides, checklists & contacts still work","saved_dev":"Saved on this device","tab_contacts":"Emergency Contacts","tab_map":"Alert Map & SMS","tab_check":"Checklists","tab_guide":"Safety Guide","tab_plan":"My Plan","contacts_h":"Verified Emergency Contacts","search_ph":"Search contacts (NDRF, police, ambulance...)","contacts_note":"Compiled from Government of India / NDMA / NDRF public listings. State and district numbers vary - add yours in My Plan.","no_match":"No contacts match.","source":"Source","mine_hint":"Added by you in My Plan","g_National":"National","g_Medical":"Medical & Police","g_State":"State & District","g_Support":"Support","g_Mine":"My Contacts","check_h":"Preparedness Checklist","check_note":"Your ticks are saved on this device and work offline.","before":"Before","during":"During","after":"After","done_of":"{d} of {n} done","reset":"Reset this list","guide_h":"Step-by-Step Safety Guide","plan_h":"My Family Plan","city":"City / District","meet":"Family meeting point","shelter":"Nearest relief camp / cyclone shelter","notes":"Notes (medicines, pets, special needs)","save_plan":"Save plan","saved":"Saved","my_pc":"My personal contacts (also shown in Emergency Contacts)","name":"Name","phone":"Phone","relation":"Relation (optional)","add":"Add","no_pc":"No contacts yet. Add family, neighbours and your doctor.","backup_h":"Backup your data","backup_note":"Everything is stored on this device. Download a backup file to move it to another phone or computer.","export":"Download backup","import":"Restore backup","import_ok":"Backup restored.","import_bad":"That file is not a valid backup.","map_h":"National Disaster Alert Map","map_note":"SAMPLE DATA for demonstration. For live official warnings use the sources below.","f_all":"All","f_flood":"Floods","f_cyc":"Cyclones","sev_red":"Red - take action","sev_orange":"Orange - be prepared","sev_yellow":"Yellow - be aware","locate":"Use my location","nearest":"Nearest alert: {place} ({km} km away)","loc_fail":"Could not get your location.","map_offline":"The map needs internet. The alert list below works offline.","official":"Official live sources","alerts_list":"Active alerts","kind_flood":"FLOOD","kind_cyclone":"CYCLONE","sevs_red":"RED","sevs_orange":"ORANGE","sevs_yellow":"YELLOW","sample_tag":"sample","sms_h":"Get SMS alerts before a disaster","sms_note":"Register your number and area. Alerts are saved on this device and previewed below.","sms_phone":"Mobile number (10 digits)","sms_state":"Your state / region","sms_types":"Alert types","subscribe":"Register for alerts","unsub":"Unregister","subscribed":"Registered: {kinds} alerts for {state} to +91 {phone}.","simulate":"Simulate an incoming alert (demo)","send_sms":"Open in my SMS app","sms_bad_phone":"Enter a valid 10-digit Indian mobile number.","sms_real":"Real SMS before a disaster: Government alerts are sent automatically by NDMA SACHET (SMS and cell broadcast) to phones in the warned area. Install the SACHET app or visit the portal to register your area. Third-party SMS gateways (e.g. MSG91, Twilio) need a server and are not possible from a single offline file.","sms_demo":"[DEMO] {kind} {sev} alert for {place}. Prepare / evacuate as advised. Emergency: 112.","f_other":"Other alerts","kind_other":"ALERT","src_live":"LIVE - official NDMA SACHET feed, updated {time}","src_snap":"Saved copy of the official NDMA SACHET feed ({time}). For live updates open the app with Start-App.bat.","src_sample":"Could not reach NDMA SACHET - showing sample data.","refresh":"Refresh","loc_asking":"Asking for your location - tap Allow in the permission prompt...","loc_denied":"Location is blocked. Open your browser's Site settings for this page (lock icon in the address bar), set Location to Allow, make sure the phone's Location/GPS is ON, then tap the button again.","loc_insecure":"Location needs a secure page (https or localhost). Open the app with Start-App.bat or from a secure link.","in_area":"WARNING: {n} active alert(s) cover your location. Follow official instructions; call 112 if in danger.","safe_area":"No active alert covers your location right now.","km_away":"{km} km away","valid_till":"Valid till"},"hi":{"lang_pick":"अपनी भाषा चुनें","lang_sub":"आप इसे कभी भी पेज के ऊपर से बदल सकते हैं।","lang_go":"आगे बढ़ें","title":"आपदा तैयारी सहायक","tag_flood":"बाढ़: सूचित रहें, जल्दी निकलें, बाढ़ के पानी में पैदल या गाड़ी से न जाएँ।","tag_cyclone":"चक्रवात: IMD अलर्ट देखें, घर सुरक्षित करें, जल्दी आश्रय लें और 'सब ठीक' होने तक अंदर रहें।","tip_flood":"सुनहरा नियम: बहते पानी की 15 सेमी धारा भी गिरा सकती है। लौट जाएँ, डूबें नहीं।","tip_cyclone":"सुनहरा नियम: तूफ़ान की शांत 'आँख' अंत नहीं है। हवाएँ उल्टी दिशा से अचानक लौटती हैं।","sos_title":"SOS - आपातकाल?","d112":"112 सभी सेवाएँ","d100":"100 पुलिस","d108":"108 एम्बुलेंस","d101":"101 दमकल","dndrf":"NDRF","d1078":"1078 NDMA","sos_btn":"अभी 112 पर कॉल करें","flood_mode":"बाढ़ मोड","cyc_mode":"चक्रवात मोड","online":"ऑनलाइन - गाइड ऑफ़लाइन के लिए सहेजे गए","offline":"ऑफ़लाइन - गाइड, चेकलिस्ट और संपर्क फिर भी काम करेंगे","saved_dev":"इस डिवाइस पर सहेजा गया","tab_contacts":"आपातकालीन संपर्क","tab_map":"अलर्ट मानचित्र और SMS","tab_check":"चेकलिस्ट","tab_guide":"सुरक्षा गाइड","tab_plan":"मेरी योजना","contacts_h":"सत्यापित आपातकालीन संपर्क","search_ph":"संपर्क खोजें (NDRF, पुलिस, एम्बुलेंस...)","contacts_note":"भारत सरकार / NDMA / NDRF की सार्वजनिक सूचियों से संकलित। राज्य और ज़िले के नंबर अलग होते हैं - अपने नंबर 'मेरी योजना' में जोड़ें।","no_match":"कोई संपर्क नहीं मिला।","source":"स्रोत","mine_hint":"आपने 'मेरी योजना' में जोड़ा","g_National":"राष्ट्रीय","g_Medical":"चिकित्सा और पुलिस","g_State":"राज्य और ज़िला","g_Support":"सहायता","g_Mine":"मेरे संपर्क","check_h":"तैयारी चेकलिस्ट","check_note":"आपके टिक इस डिवाइस पर सहेजे जाते हैं और ऑफ़लाइन भी चलते हैं।","before":"पहले","during":"दौरान","after":"बाद में","done_of":"{n} में से {d} पूरे","reset":"यह सूची रीसेट करें","guide_h":"चरण-दर-चरण सुरक्षा गाइड","plan_h":"मेरी पारिवारिक योजना","city":"शहर / ज़िला","meet":"परिवार के मिलने की जगह","shelter":"नज़दीकी राहत शिविर / चक्रवात आश्रय","notes":"नोट्स (दवाएँ, पालतू, विशेष ज़रूरतें)","save_plan":"योजना सहेजें","saved":"सहेजा गया","my_pc":"मेरे निजी संपर्क (आपातकालीन संपर्क में भी दिखेंगे)","name":"नाम","phone":"फ़ोन","relation":"रिश्ता (वैकल्पिक)","add":"जोड़ें","no_pc":"अभी कोई संपर्क नहीं। परिवार, पड़ोसी और अपने डॉक्टर को जोड़ें।","backup_h":"अपना डेटा बैकअप करें","backup_note":"सारा डेटा इसी डिवाइस पर है। दूसरे फ़ोन/कंप्यूटर पर ले जाने के लिए बैकअप फ़ाइल डाउनलोड करें।","export":"बैकअप डाउनलोड करें","import":"बैकअप पुनः लोड करें","import_ok":"बैकअप लोड हो गया।","import_bad":"यह फ़ाइल मान्य बैकअप नहीं है।","map_h":"राष्ट्रीय आपदा अलर्ट मानचित्र","map_note":"प्रदर्शन के लिए नमूना डेटा। असली आधिकारिक चेतावनियों के लिए नीचे दिए स्रोत देखें।","f_all":"सभी","f_flood":"बाढ़","f_cyc":"चक्रवात","sev_red":"लाल - कार्रवाई करें","sev_orange":"नारंगी - तैयार रहें","sev_yellow":"पीला - सतर्क रहें","locate":"मेरा स्थान उपयोग करें","nearest":"सबसे नज़दीकी अलर्ट: {place} ({km} किमी दूर)","loc_fail":"आपका स्थान नहीं मिल सका।","map_offline":"मानचित्र के लिए इंटरनेट चाहिए। नीचे की अलर्ट सूची ऑफ़लाइन चलती है।","official":"आधिकारिक लाइव स्रोत","alerts_list":"सक्रिय अलर्ट","kind_flood":"बाढ़","kind_cyclone":"चक्रवात","sevs_red":"लाल","sevs_orange":"नारंगी","sevs_yellow":"पीला","sample_tag":"नमूना","sms_h":"आपदा से पहले SMS अलर्ट पाएँ","sms_note":"अपना नंबर और क्षेत्र दर्ज करें। अलर्ट इस डिवाइस पर सहेजे जाते हैं और नीचे दिखते हैं।","sms_phone":"मोबाइल नंबर (10 अंक)","sms_state":"आपका राज्य / क्षेत्र","sms_types":"अलर्ट के प्रकार","subscribe":"अलर्ट के लिए पंजीकरण","unsub":"पंजीकरण हटाएँ","subscribed":"पंजीकृत: {state} के लिए {kinds} अलर्ट, +91 {phone} पर।","simulate":"आने वाला अलर्ट आज़माएँ (डेमो)","send_sms":"मेरे SMS ऐप में खोलें","sms_bad_phone":"सही 10 अंकों का भारतीय मोबाइल नंबर दर्ज करें।","sms_real":"आपदा से पहले असली SMS: सरकारी अलर्ट NDMA SACHET द्वारा चेतावनी वाले क्षेत्र के फ़ोन पर अपने-आप भेजे जाते हैं (SMS और सेल ब्रॉडकास्ट)। अपना क्षेत्र पंजीकृत करने के लिए SACHET ऐप इंस्टॉल करें या पोर्टल पर जाएँ। थर्ड-पार्टी SMS गेटवे (जैसे MSG91, Twilio) के लिए सर्वर चाहिए, जो एक ऑफ़लाइन फ़ाइल से संभव नहीं।","sms_demo":"[डेमो] {place} के लिए {kind} {sev} अलर्ट। सलाह के अनुसार तैयारी / निकासी करें। आपातकाल: 112।","f_other":"अन्य अलर्ट","kind_other":"अलर्ट","src_live":"लाइव - आधिकारिक NDMA SACHET फ़ीड, अपडेट {time}","src_snap":"आधिकारिक NDMA SACHET फ़ीड की सहेजी प्रति ({time})। लाइव अपडेट के लिए ऐप Start-App.bat से खोलें।","src_sample":"NDMA SACHET तक नहीं पहुँच सके - नमूना डेटा दिखा रहे हैं।","refresh":"रीफ़्रेश","loc_asking":"आपका स्थान माँगा जा रहा है - अनुमति पॉप-अप में 'Allow' दबाएँ...","loc_denied":"स्थान अवरुद्ध है। ब्राउज़र की साइट सेटिंग (एड्रेस बार में लॉक आइकन) में Location को Allow करें, फ़ोन का Location/GPS चालू रखें, फिर बटन दोबारा दबाएँ।","loc_insecure":"स्थान के लिए सुरक्षित पेज (https या localhost) चाहिए। ऐप Start-App.bat से खोलें।","in_area":"चेतावनी: {n} सक्रिय अलर्ट आपके स्थान को कवर करते हैं। आधिकारिक निर्देश मानें; खतरे में 112 पर कॉल करें।","safe_area":"अभी कोई सक्रिय अलर्ट आपके स्थान को कवर नहीं करता।","km_away":"{km} किमी दूर","valid_till":"मान्य"},"ta":{"lang_pick":"உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்","lang_sub":"பக்கத்தின் மேலே எப்போது வேண்டுமானாலும் மாற்றலாம்.","lang_go":"தொடரவும்","title":"பேரிடர் தயார்நிலை உதவியாளர்","tag_flood":"வெள்ளம்: தகவலுடன் இருங்கள், விரைவாக வெளியேறுங்கள், வெள்ள நீரில் நடக்கவோ வாகனம் ஓட்டவோ வேண்டாம்.","tag_cyclone":"புயல்: IMD எச்சரிக்கைகளைப் பாருங்கள், வீட்டைப் பாதுகாப்பாக்குங்கள், முன்கூட்டியே தங்குமிடம் செல்லுங்கள்.","tip_flood":"முக்கிய விதி: ஓடும் நீர் 15 செ.மீ. இருந்தாலும் கீழே தள்ளும். திரும்பிச் செல்லுங்கள்.","tip_cyclone":"முக்கிய விதி: புயலின் அமைதியான 'கண்' முடிவு அல்ல. காற்று எதிர்திசையில் திடீரென வரும்.","sos_title":"SOS - அவசரமா?","d112":"112 அனைத்தும்","d100":"100 காவல்","d108":"108 ஆம்புலன்ஸ்","d101":"101 தீயணைப்பு","dndrf":"NDRF","d1078":"1078 NDMA","sos_btn":"இப்போதே 112-ஐ அழைக்கவும்","flood_mode":"வெள்ள முறை","cyc_mode":"புயல் முறை","online":"ஆன்லைன் - வழிகாட்டிகள் ஆஃப்லைனுக்காக சேமிக்கப்பட்டன","offline":"ஆஃப்லைன் - வழிகாட்டி, பட்டியல், தொடர்புகள் வேலை செய்யும்","saved_dev":"இந்தச் சாதனத்தில் சேமிக்கப்பட்டது","tab_contacts":"அவசரத் தொடர்புகள்","tab_map":"எச்சரிக்கை வரைபடம் & SMS","tab_check":"சரிபார்ப்புப் பட்டியல்","tab_guide":"பாதுகாப்பு வழிகாட்டி","tab_plan":"என் திட்டம்","contacts_h":"சரிபார்க்கப்பட்ட அவசரத் தொடர்புகள்","search_ph":"தொடர்புகளைத் தேடுக (NDRF, காவல், ஆம்புலன்ஸ்...)","contacts_note":"இந்திய அரசு / NDMA / NDRF பொதுப் பட்டியல்களிலிருந்து தொகுக்கப்பட்டது. மாநில, மாவட்ட எண்கள் மாறுபடும் - 'என் திட்டத்தில்' சேர்க்கவும்.","no_match":"பொருந்தும் தொடர்புகள் இல்லை.","source":"ஆதாரம்","mine_hint":"நீங்கள் 'என் திட்டத்தில்' சேர்த்தது","g_National":"தேசிய","g_Medical":"மருத்துவம் & காவல்","g_State":"மாநிலம் & மாவட்டம்","g_Support":"உதவி","g_Mine":"என் தொடர்புகள்","check_h":"தயார்நிலைப் பட்டியல்","check_note":"உங்கள் டிக் குறிகள் இந்தச் சாதனத்தில் சேமிக்கப்படும்; ஆஃப்லைனிலும் வேலை செய்யும்.","before":"முன்","during":"போது","after":"பின்","done_of":"{n} இல் {d} முடிந்தது","reset":"இந்தப் பட்டியலை மீட்டமை","guide_h":"படிப்படியான பாதுகாப்பு வழிகாட்டி","plan_h":"என் குடும்பத் திட்டம்","city":"நகரம் / மாவட்டம்","meet":"குடும்பம் சந்திக்கும் இடம்","shelter":"அருகிலுள்ள நிவாரண முகாம் / புயல் தங்குமிடம்","notes":"குறிப்புகள் (மருந்துகள், செல்லப்பிராணிகள், சிறப்புத் தேவைகள்)","save_plan":"திட்டத்தைச் சேமி","saved":"சேமிக்கப்பட்டது","my_pc":"என் தனிப்பட்ட தொடர்புகள் (அவசரத் தொடர்புகளிலும் தெரியும்)","name":"பெயர்","phone":"தொலைபேசி","relation":"உறவு (விருப்பம்)","add":"சேர்","no_pc":"தொடர்புகள் இல்லை. குடும்பம், அண்டை வீட்டார், மருத்துவரைச் சேருங்கள்.","backup_h":"தரவை காப்புப் பிரதி எடுக்கவும்","backup_note":"எல்லாம் இந்தச் சாதனத்தில் உள்ளது. வேறு தொலைபேசிக்கு மாற்ற காப்புக் கோப்பைப் பதிவிறக்கவும்.","export":"காப்பைப் பதிவிறக்கு","import":"காப்பை மீட்டெடு","import_ok":"காப்பு மீட்கப்பட்டது.","import_bad":"இது சரியான காப்புக் கோப்பு அல்ல.","map_h":"தேசிய பேரிடர் எச்சரிக்கை வரைபடம்","map_note":"செயல்விளக்கத்திற்கான மாதிரித் தரவு. நேரடி அதிகாரப்பூர்வ எச்சரிக்கைகளுக்கு கீழுள்ள ஆதாரங்களைப் பாருங்கள்.","f_all":"அனைத்தும்","f_flood":"வெள்ளம்","f_cyc":"புயல்","sev_red":"சிவப்பு - நடவடிக்கை எடுங்கள்","sev_orange":"ஆரஞ்சு - தயாராகுங்கள்","sev_yellow":"மஞ்சள் - கவனமாக இருங்கள்","locate":"என் இருப்பிடத்தைப் பயன்படுத்து","nearest":"அருகிலுள்ள எச்சரிக்கை: {place} ({km} கி.மீ.)","loc_fail":"உங்கள் இருப்பிடத்தைப் பெற முடியவில்லை.","map_offline":"வரைபடத்திற்கு இணையம் தேவை. கீழுள்ள பட்டியல் ஆஃப்லைனில் வேலை செய்யும்.","official":"அதிகாரப்பூர்வ நேரடி ஆதாரங்கள்","alerts_list":"செயலில் உள்ள எச்சரிக்கைகள்","kind_flood":"வெள்ளம்","kind_cyclone":"புயல்","sevs_red":"சிவப்பு","sevs_orange":"ஆரஞ்சு","sevs_yellow":"மஞ்சள்","sample_tag":"மாதிரி","sms_h":"பேரிடருக்கு முன் SMS எச்சரிக்கை பெறுங்கள்","sms_note":"உங்கள் எண்ணையும் பகுதியையும் பதிவு செய்யுங்கள். எச்சரிக்கைகள் இந்தச் சாதனத்தில் சேமிக்கப்படும்.","sms_phone":"மொபைல் எண் (10 இலக்கம்)","sms_state":"உங்கள் மாநிலம் / பகுதி","sms_types":"எச்சரிக்கை வகைகள்","subscribe":"எச்சரிக்கைக்குப் பதிவு செய்","unsub":"பதிவை நீக்கு","subscribed":"பதிவு செய்யப்பட்டது: {state} க்கான {kinds} எச்சரிக்கைகள், +91 {phone}.","simulate":"வரும் எச்சரிக்கையைச் சோதி (டெமோ)","send_sms":"என் SMS செயலியில் திற","sms_bad_phone":"சரியான 10 இலக்க இந்திய மொபைல் எண்ணை உள்ளிடுங்கள்.","sms_real":"பேரிடருக்கு முன் உண்மையான SMS: எச்சரிக்கைப் பகுதியில் உள்ள தொலைபேசிகளுக்கு அரசு எச்சரிக்கைகள் NDMA SACHET மூலம் தானாக அனுப்பப்படும் (SMS, செல் ஒளிபரப்பு). பதிவு செய்ய SACHET செயலியை நிறுவவும். மூன்றாம் தரப்பு SMS சேவைகளுக்கு சர்வர் தேவை; ஒற்றைக் கோப்பிலிருந்து சாத்தியமில்லை.","sms_demo":"[டெமோ] {place} க்கு {kind} {sev} எச்சரிக்கை. அறிவுறுத்தியபடி தயாராகுங்கள் / வெளியேறுங்கள். அவசரம்: 112.","f_other":"பிற எச்சரிக்கைகள்","kind_other":"எச்சரிக்கை","src_live":"நேரடி - அதிகாரப்பூர்வ NDMA SACHET ஊட்டம், புதுப்பிப்பு {time}","src_snap":"அதிகாரப்பூர்வ NDMA SACHET ஊட்டத்தின் சேமித்த நகல் ({time}). நேரடிப் புதுப்பிப்புக்கு Start-App.bat மூலம் திறக்கவும்.","src_sample":"NDMA SACHET ஐ அணுக முடியவில்லை - மாதிரித் தரவு காட்டப்படுகிறது.","refresh":"புதுப்பி","loc_asking":"உங்கள் இருப்பிடம் கேட்கப்படுகிறது - அனுமதி பாப்-அப்பில் 'Allow' தட்டவும்...","loc_denied":"இருப்பிடம் தடுக்கப்பட்டுள்ளது. உலாவியின் தள அமைப்புகளில் (முகவரிப் பட்டியில் பூட்டு குறி) Location ஐ Allow ஆக்குங்கள்; தொலைபேசி Location/GPS இயக்கத்தில் இருக்கட்டும்; மீண்டும் தட்டவும்.","loc_insecure":"இருப்பிடத்திற்கு பாதுகாப்பான பக்கம் (https அல்லது localhost) தேவை. Start-App.bat மூலம் திறக்கவும்.","in_area":"எச்சரிக்கை: {n} செயலில் உள்ள எச்சரிக்கை(கள்) உங்கள் இருப்பிடத்தை உள்ளடக்குகின்றன. அதிகாரப்பூர்வ அறிவுரையைப் பின்பற்றுங்கள்; ஆபத்தெனில் 112.","safe_area":"தற்போது எந்த எச்சரிக்கையும் உங்கள் இருப்பிடத்தை உள்ளடக்கவில்லை.","km_away":"{km} கி.மீ. தொலைவு","valid_till":"செல்லுபடி"},"bn":{"lang_pick":"আপনার ভাষা বেছে নিন","lang_sub":"পেজের উপর থেকে যেকোনো সময় বদলাতে পারবেন।","lang_go":"এগিয়ে যান","title":"দুর্যোগ প্রস্তুতি সহায়ক","tag_flood":"বন্যা: খবর রাখুন, আগে সরে যান, বন্যার জলে হাঁটবেন না বা গাড়ি চালাবেন না।","tag_cyclone":"ঘূর্ণিঝড়: IMD সতর্কতা দেখুন, ঘর সুরক্ষিত করুন, আগে আশ্রয় নিন, নিরাপদ ঘোষণা পর্যন্ত ভেতরে থাকুন।","tip_flood":"সোনালি নিয়ম: বইতে থাকা ১৫ সেমি জলও আপনাকে ফেলে দিতে পারে। ফিরে যান।","tip_cyclone":"সোনালি নিয়ম: ঝড়ের শান্ত 'চোখ' শেষ নয়। উল্টো দিক থেকে হঠাৎ বাতাস ফিরে আসে।","sos_title":"SOS - জরুরি অবস্থা?","d112":"112 সব সেবা","d100":"100 পুলিশ","d108":"108 অ্যাম্বুলেন্স","d101":"101 দমকল","dndrf":"NDRF","d1078":"1078 NDMA","sos_btn":"এখনই 112 এ কল করুন","flood_mode":"বন্যা মোড","cyc_mode":"ঘূর্ণিঝড় মোড","online":"অনলাইন - গাইড অফলাইনের জন্য সংরক্ষিত","offline":"অফলাইন - গাইড, চেকলিস্ট ও যোগাযোগ কাজ করবে","saved_dev":"এই ডিভাইসে সংরক্ষিত","tab_contacts":"জরুরি যোগাযোগ","tab_map":"সতর্কতা মানচিত্র ও SMS","tab_check":"চেকলিস্ট","tab_guide":"সুরক্ষা গাইড","tab_plan":"আমার পরিকল্পনা","contacts_h":"যাচাইকৃত জরুরি যোগাযোগ","search_ph":"যোগাযোগ খুঁজুন (NDRF, পুলিশ, অ্যাম্বুলেন্স...)","contacts_note":"ভারত সরকার / NDMA / NDRF এর প্রকাশিত তালিকা থেকে সংকলিত। রাজ্য ও জেলার নম্বর আলাদা - 'আমার পরিকল্পনায়' যোগ করুন।","no_match":"কোনো যোগাযোগ মেলেনি।","source":"সূত্র","mine_hint":"আপনি 'আমার পরিকল্পনায়' যোগ করেছেন","g_National":"জাতীয়","g_Medical":"চিকিৎসা ও পুলিশ","g_State":"রাজ্য ও জেলা","g_Support":"সহায়তা","g_Mine":"আমার যোগাযোগ","check_h":"প্রস্তুতি চেকলিস্ট","check_note":"আপনার টিক এই ডিভাইসে সংরক্ষিত হয় এবং অফলাইনেও কাজ করে।","before":"আগে","during":"চলাকালীন","after":"পরে","done_of":"{n} এর মধ্যে {d} সম্পন্ন","reset":"এই তালিকা রিসেট করুন","guide_h":"ধাপে ধাপে সুরক্ষা গাইড","plan_h":"আমার পারিবারিক পরিকল্পনা","city":"শহর / জেলা","meet":"পরিবারের জমায়েতের জায়গা","shelter":"নিকটতম ত্রাণ শিবির / ঘূর্ণিঝড় আশ্রয়কেন্দ্র","notes":"নোট (ওষুধ, পোষা প্রাণী, বিশেষ প্রয়োজন)","save_plan":"পরিকল্পনা সংরক্ষণ","saved":"সংরক্ষিত","my_pc":"আমার ব্যক্তিগত যোগাযোগ (জরুরি যোগাযোগেও দেখাবে)","name":"নাম","phone":"ফোন","relation":"সম্পর্ক (ঐচ্ছিক)","add":"যোগ করুন","no_pc":"এখনও কোনো যোগাযোগ নেই। পরিবার, প্রতিবেশী ও ডাক্তারকে যোগ করুন।","backup_h":"আপনার ডেটা ব্যাকআপ","backup_note":"সব ডেটা এই ডিভাইসে আছে। অন্য ফোনে নিতে ব্যাকআপ ফাইল ডাউনলোড করুন।","export":"ব্যাকআপ ডাউনলোড","import":"ব্যাকআপ ফিরিয়ে আনুন","import_ok":"ব্যাকআপ ফিরে এসেছে।","import_bad":"এটি বৈধ ব্যাকআপ ফাইল নয়।","map_h":"জাতীয় দুর্যোগ সতর্কতা মানচিত্র","map_note":"প্রদর্শনের জন্য নমুনা ডেটা। সরাসরি সরকারি সতর্কতার জন্য নিচের সূত্র দেখুন।","f_all":"সব","f_flood":"বন্যা","f_cyc":"ঘূর্ণিঝড়","sev_red":"লাল - পদক্ষেপ নিন","sev_orange":"কমলা - প্রস্তুত থাকুন","sev_yellow":"হলুদ - সতর্ক থাকুন","locate":"আমার অবস্থান ব্যবহার করুন","nearest":"নিকটতম সতর্কতা: {place} ({km} কিমি দূরে)","loc_fail":"আপনার অবস্থান পাওয়া যায়নি।","map_offline":"মানচিত্রের জন্য ইন্টারনেট লাগবে। নিচের তালিকা অফলাইনে কাজ করে।","official":"সরকারি লাইভ সূত্র","alerts_list":"সক্রিয় সতর্কতা","kind_flood":"বন্যা","kind_cyclone":"ঘূর্ণিঝড়","sevs_red":"লাল","sevs_orange":"কমলা","sevs_yellow":"হলুদ","sample_tag":"নমুনা","sms_h":"দুর্যোগের আগে SMS সতর্কতা পান","sms_note":"আপনার নম্বর ও এলাকা নথিভুক্ত করুন। সতর্কতা এই ডিভাইসে সংরক্ষিত থাকে।","sms_phone":"মোবাইল নম্বর (১০ সংখ্যা)","sms_state":"আপনার রাজ্য / অঞ্চল","sms_types":"সতর্কতার ধরন","subscribe":"সতর্কতার জন্য নিবন্ধন","unsub":"নিবন্ধন বাতিল","subscribed":"নিবন্ধিত: {state} এর জন্য {kinds} সতর্কতা, +91 {phone}।","simulate":"আসন্ন সতর্কতা পরীক্ষা করুন (ডেমো)","send_sms":"আমার SMS অ্যাপে খুলুন","sms_bad_phone":"সঠিক ১০ সংখ্যার ভারতীয় মোবাইল নম্বর দিন।","sms_real":"দুর্যোগের আগে আসল SMS: সরকারি সতর্কতা NDMA SACHET এর মাধ্যমে সতর্কতা এলাকার ফোনে স্বয়ংক্রিয়ভাবে যায় (SMS ও সেল ব্রডকাস্ট)। নিবন্ধনের জন্য SACHET অ্যাপ ইনস্টল করুন। তৃতীয় পক্ষের SMS গেটওয়ের জন্য সার্ভার লাগে, একটি অফলাইন ফাইল থেকে সম্ভব নয়।","sms_demo":"[ডেমো] {place} এর জন্য {kind} {sev} সতর্কতা। নির্দেশ অনুযায়ী প্রস্তুত হোন / সরে যান। জরুরি: 112।","f_other":"অন্যান্য সতর্কতা","kind_other":"সতর্কতা","src_live":"লাইভ - সরকারি NDMA SACHET ফিড, আপডেট {time}","src_snap":"সরকারি NDMA SACHET ফিডের সংরক্ষিত কপি ({time})। লাইভ আপডেটের জন্য Start-App.bat দিয়ে খুলুন।","src_sample":"NDMA SACHET এ পৌঁছানো যায়নি - নমুনা ডেটা দেখানো হচ্ছে।","refresh":"রিফ্রেশ","loc_asking":"আপনার অবস্থান চাওয়া হচ্ছে - অনুমতির পপ-আপে 'Allow' চাপুন...","loc_denied":"অবস্থান ব্লক করা আছে। ব্রাউজারের সাইট সেটিংসে (অ্যাড্রেস বারের লক আইকন) Location কে Allow করুন, ফোনের Location/GPS চালু রাখুন, তারপর আবার বোতাম চাপুন।","loc_insecure":"অবস্থানের জন্য নিরাপদ পেজ (https বা localhost) লাগবে। Start-App.bat দিয়ে খুলুন।","in_area":"সতর্কতা: {n}টি সক্রিয় সতর্কতা আপনার অবস্থান কভার করছে। সরকারি নির্দেশ মানুন; বিপদে 112 এ কল করুন।","safe_area":"এই মুহূর্তে কোনো সক্রিয় সতর্কতা আপনার অবস্থান কভার করছে না।","km_away":"{km} কিমি দূরে","valid_till":"বৈধ"}};
+const TR = {"hi":{"contacts":{"c1":["राष्ट्रीय आपातकालीन नंबर (एकल खिड़की)","पुलिस, दमकल, एम्बुलेंस - किसी भी फ़ोन से चलता है, बैलेंस न हो तब भी"],"c2":["NDRF नियंत्रण कक्ष (दिल्ली)","राष्ट्रीय आपदा प्रतिक्रिया बल, 24x7"],"c3":["NDRF हेल्पलाइन (मोबाइल)","बाढ़ / चक्रवात में बचाव अनुरोध"],"c4":["NDMA आपदा प्रबंधन हेल्पलाइन","राष्ट्रीय आपदा प्रबंधन प्राधिकरण"],"c5":["भारतीय तटरक्षक संकट सेवा","तटीय और समुद्री आपात स्थिति, संकट में मछुआरे"],"c6":["पुलिस","स्थानीय पुलिस नियंत्रण कक्ष"],"c7":["दमकल सेवा","आग और बचाव"],"c8":["एम्बुलेंस","रोगी परिवहन (गर्भावस्था / शिशु देखभाल)"],"c9":["आपातकालीन एम्बुलेंस","अधिकांश राज्यों में निःशुल्क आपातकालीन एम्बुलेंस"],"c10":["राज्य आपदा हेल्पलाइन","राज्य आपातकालीन संचालन केंद्र (अधिकांश राज्य)"],"c11":["ज़िला आपातकालीन संचालन केंद्र","कलेक्ट्रेट नियंत्रण कक्ष, बाढ़ राहत और निकासी"],"c12":["महिला हेल्पलाइन","राहत शिविरों / यात्रा में महिलाओं की सुरक्षा"],"c13":["चाइल्ड हेल्पलाइन","लापता या बिछड़े बच्चे"],"c14":["रेलवे हेल्पलाइन","ट्रेन रद्द होना और स्टेशनों पर बचाव"],"c15":["राष्ट्रीय राजमार्ग हेल्पलाइन","सड़क अवरोध, राजमार्ग पर फँसे वाहन"]},"checklists":{"flood":{"before":["अपने इलाके में बाढ़ के खतरे और नज़दीकी ऊँची जगह / राहत शिविर की जानकारी रखें","आपातकालीन किट तैयार रखें: पानी (3 लीटर/व्यक्ति/दिन), सूखा खाना, टॉर्च, रेडियो, पावर बैंक, प्राथमिक उपचार","पहचान पत्र, बीमा, ज़मीन के कागज़ात और दवा के पर्चे वॉटरप्रूफ थैली में रखें","आपातकालीन नंबर फ़ोन में और कागज़ पर भी लिखकर रखें","परिवार के मिलने की जगह तय करें और निकासी का रास्ता बनाएँ","कीमती सामान, बिजली के उपकरण और रसायन ऊपरी मंज़िल पर रखें","नियमित दवाओं का एक महीने का स्टॉक रखें","गाड़ी की टंकी भरवा लें; फ़ोन और पावर बैंक चार्ज रखें","IMD / राज्य के अलर्ट ऐप (जैसे मौसम, उमंग) इंस्टॉल करें और चेतावनियाँ देखते रहें","मेन बिजली और गैस बंद करना सीखें"],"during":["निकासी का निर्देश मिलते ही तुरंत ऊँची जगह जाएँ - देर न करें","मेन स्विच से बिजली बंद करें और गैस सिलेंडर बंद करें","बाढ़ के पानी में पैदल, तैरकर या गाड़ी से न जाएँ (15 सेमी पानी भी गिरा सकता है)","बिजली के तारों, नालों और खुले मैनहोल से दूर रहें","सिर्फ़ उबला या क्लोरीन मिला पानी पिएँ; बाढ़ के पानी से संपर्क न करें","अपडेट के लिए रेडियो / आधिकारिक अलर्ट सुनते रहें","पहले बच्चों, बुज़ुर्गों, गर्भवती महिलाओं और दिव्यांगों की मदद करें","फँस जाएँ तो छत पर चढ़ें, चमकीले कपड़े या टॉर्च से संकेत दें और 112 / 1077 पर कॉल करें","निकलते समय अपनी किट और दस्तावेज़ साथ रखें"],"after":["प्रशासन के सुरक्षित घोषित करने के बाद ही घर लौटें","अंदर जाने से पहले ढाँचे की क्षति, दरारें और गैस रिसाव जाँचें","इलेक्ट्रीशियन से वायरिंग जाँच कराए बिना बिजली चालू न करें","बीमा और राहत दावों के लिए नुकसान की तस्वीरें लें","बाढ़ के पानी से छुए भोजन को फेंक दें; पीने का पानी उबालें","दीवारें और फ़र्श साफ़ कर कीटाणुरहित करें; साँप और कीड़ों से सावधान रहें","कटने, दस्त या बुखार का इलाज/टीका लगवाएँ (लेप्टोस्पायरोसिस, हैजा, डेंगू का खतरा)","स्थानीय तहसील / पंचायत कार्यालय में सरकारी राहत के लिए पंजीकरण कराएँ","पड़ोसियों, खासकर अकेले रहने वाले बुज़ुर्गों का हाल पूछें"]},"cyclone":{"before":["IMD के चक्रवात अलर्ट (पीला / नारंगी / लाल) देखें और निकासी की सलाह मानें","नज़दीकी चक्रवात आश्रय और वहाँ का सुरक्षित रास्ता पता रखें","छत, दरवाज़े और खिड़कियाँ मज़बूत करें; घर के पास की ढीली टहनियाँ काटें","7 दिन का सूखा राशन और पीने का पानी जमा करें","रेडियो, टॉर्च, अतिरिक्त बैटरी और पावर बैंक तैयार रखें","दस्तावेज़ और नकदी वॉटरप्रूफ थैली में रखें","मछुआरे: नावें और जाल सुरक्षित बंदरगाह पर लाएँ, समुद्र में न जाएँ","ढीली चीज़ें, होर्डिंग और मवेशी सुरक्षित करें या अंदर लाएँ","फ़ोन चार्ज रखें और गाड़ी की टंकी भरवा लें"],"during":["घर के सबसे मज़बूत कमरे में, खिड़कियों और काँच से दूर, अंदर रहें","बिजली और गैस बंद करें; बिजली के उपकरण इस्तेमाल न करें","घर असुरक्षित हो तो हवा तेज़ होने से पहले चक्रवात आश्रय में पहुँचें","तूफ़ान की 'आँख' की शांति में बाहर न निकलें - हवाएँ अचानक लौट आती हैं","आधिकारिक निर्देशों के लिए बैटरी वाला रेडियो सुनते रहें","समुद्र तट, नदियों और निचले तटीय इलाकों से दूर रहें (तूफ़ानी लहर)","छत गिरने लगे तो गद्दे या कंबल से खुद को बचाएँ","जानलेवा आपात स्थिति में ही 112 या 1077 पर कॉल करें"],"after":["अधिकारियों के चक्रवात पूरी तरह गुज़रने की घोषणा तक आश्रय में रहें","गिरे बिजली के तारों, टूटे खंभों और क्षतिग्रस्त इमारतों से दूर रहें","भरी सड़कों और उखड़े पेड़ों से सावधान रहें","सिर्फ़ सुरक्षित पानी पिएँ; संदेह हो तो उबालें","राहत और बीमा के लिए नुकसान की तस्वीरें लें","घायलों को प्राथमिक उपचार दें; गंभीर चोट पर 108 पर कॉल करें","चेतावनी हटने तक समुद्र में न उतरें (मछुआरे)","सामुदायिक सफ़ाई में मदद करें और पड़ोसियों का हाल पूछें"]}},"guidelines":{"flood":[["1. चेतावनी पाएँ और जानकारी रखें",["केंद्रीय जल आयोग, IMD, स्थानीय रेडियो और राज्य आपदा प्राधिकरण के संदेश देखें।","'वॉच' = बाढ़ संभव, 'वॉर्निंग' = बाढ़ आ रही है या आने वाली है।","अफ़वाहों पर भरोसा न करें; आधिकारिक स्रोत से पुष्टि करें।"]],["2. घर और परिवार को तैयार करें",["कीमती सामान और बिजली के उपकरण संभावित जलस्तर से ऊपर रखें।","पानी की वापसी रोकने के लिए नालियों और शौचालयों को रेत की बोरियों / प्लास्टिक से बंद करें।","आपातकालीन किट पैक करें और सभी को निकासी योजना समझाएँ।"]],["3. जल्दी निकलें",["अधिकारियों की सलाह मिलते ही निकलें। सड़कें मिनटों में डूब सकती हैं।","बिजली-गैस बंद करें, घर में ताला लगाएँ और किट साथ लें।","तय रास्तों से जाएँ; पानी से होकर शॉर्टकट न लें।","नज़दीकी राहत शिविर या ऊँची जगह जाएँ और शिविर प्रभारी के पास पंजीकरण कराएँ।"]],["4. अगर आप फँस गए हैं",["सबसे ऊँची सुरक्षित जगह (ऊपरी मंज़िल / छत) पर जाएँ। बंद अटारी में न जाएँ।","112, 1077 या NDRF 9711077372 पर कॉल करें - अपनी लोकेशन और लोगों की संख्या बताएँ।","टॉर्च, सीटी या चमकीले कपड़े से संकेत दें।","साथ रहें और फ़ोन की बैटरी बचाएँ।"]],["5. गाड़ी चलाने और पैदल चलने की सुरक्षा",["लौट जाएँ, डूबें नहीं - 30 सेमी पानी कार को बहा सकता है।","बढ़ते पानी में गाड़ी बंद हो जाए तो उसे छोड़कर ऊँची जगह जाएँ।","बहते पानी में पैदल न चलें और तेज़ धारा वाले पुलों से दूर रहें।"]],["6. स्वास्थ्य और पानी की सुरक्षा",["पानी कम से कम 1 मिनट उबालें या क्लोरीन की गोलियाँ इस्तेमाल करें।","साबुन से हाथ धोएँ; घावों को बाढ़ के पानी से बचाएँ।","बुखार, दस्त या त्वचा संक्रमण हो तो डॉक्टर को दिखाएँ।"]],["7. बाद में सुधार",["सुरक्षित घोषित होने पर ही लौटें; ढाँचे की क्षति जाँचें।","बिजली चालू करने से पहले वायरिंग की जाँच कराएँ।","नुकसान दर्ज करें और राहत / बीमा के लिए आवेदन करें।"]]],"cyclone":[["1. चेतावनी के चरण समझें",["IMD प्री-साइक्लोन वॉच (72 घंटे), साइक्लोन अलर्ट (48 घंटे), वॉर्निंग (24 घंटे) और लैंडफॉल के बाद आउटलुक जारी करता है।","रंग कोड: हरा (कोई कार्रवाई नहीं), पीला (सतर्क रहें), नारंगी (तैयार रहें), लाल (कार्रवाई करें)।","अपने ज़िला प्रशासन की निकासी सलाह मानें।"]],["2. अपना घर सुरक्षित करें",["छत को रस्सियों / वज़न से मज़बूत करें; दरवाज़े-खिड़कियाँ बंद कर कुंडी लगाएँ।","आँगन और छत से ढीली चीज़ें हटा दें।","कमज़ोर टहनियाँ काटें; गाड़ी सुरक्षित, ढकी जगह खड़ी करें।"]],["3. अपनी किट बनाएँ",["पानी, सूखा खाना, दवाएँ, प्राथमिक उपचार, टॉर्च, रेडियो, बैटरी, पावर बैंक।","वॉटरप्रूफ थैली में दस्तावेज़, नकदी और संपर्कों की सूची।","कंबल, कपड़े, स्वच्छता सामग्री और बच्चों / बुज़ुर्गों की ज़रूरी चीज़ें।"]],["4. चक्रवात आश्रय में जाएँ",["तटीय निचले इलाकों में पक्की इमारत / चक्रवात आश्रय में जाएँ।","हवा तेज़ होने से पहले निकलें; सड़कें बंद हो सकती हैं।","किट साथ रखें, परिवार एक साथ रहे और आश्रय में पंजीकरण कराएँ।"]],["5. तूफ़ान के दौरान",["खिड़कियों से दूर, सबसे मज़बूत भीतरी कमरे में रहें।","तूफ़ान की 'आँख' के दौरान बाहर न निकलें।","अपडेट के लिए बैटरी रेडियो चालू रखें; मोमबत्ती नहीं, टॉर्च इस्तेमाल करें।"]],["6. समुद्र / तट पर",["मछुआरे पहली चेतावनी पर बंदरगाह लौट आएँ।","नावें और जाल सुरक्षित जगह रखें; किनारे पर न रुकें।","तूफ़ानी लहर से सावधान - समुद्री पानी कई किलोमीटर अंदर आ सकता है।"]],["7. चक्रवात के बाद",["अधिकारियों की 'सब ठीक है' घोषणा का इंतज़ार करें।","गिरे तारों और कमज़ोर ढाँचों से दूर रहें।","प्राथमिक उपचार दें, गंभीर चोट पर 108 बुलाएँ और लापता लोगों की सूचना 112 को दें।"]]]}},"ta":{"contacts":{"c1":["தேசிய அவசர எண் (ஒரே சாளரம்)","காவல், தீயணைப்பு, ஆம்புலன்ஸ் - இருப்புத் தொகை இல்லாவிட்டாலும் வேலை செய்யும்"],"c2":["NDRF கட்டுப்பாட்டு அறை (டெல்லி)","தேசிய பேரிடர் மீட்புப் படை, 24x7"],"c3":["NDRF உதவி எண் (மொபைல்)","வெள்ளம் / புயலில் மீட்புக் கோரிக்கைகள்"],"c4":["NDMA பேரிடர் மேலாண்மை உதவி எண்","தேசிய பேரிடர் மேலாண்மை ஆணையம்"],"c5":["இந்தியக் கடலோரக் காவல்படை அவசரம்","கடலோர, கடல் அவசரநிலைகள், ஆபத்தில் உள்ள மீனவர்கள்"],"c6":["காவல்துறை","உள்ளூர் காவல் கட்டுப்பாட்டு அறை"],"c7":["தீயணைப்புச் சேவை","தீ மற்றும் மீட்பு"],"c8":["ஆம்புலன்ஸ்","நோயாளி போக்குவரத்து (கர்ப்பம் / குழந்தை பராமரிப்பு)"],"c9":["அவசர ஆம்புலன்ஸ்","பெரும்பாலான மாநிலங்களில் இலவச அவசர ஆம்புலன்ஸ்"],"c10":["மாநிலப் பேரிடர் உதவி எண்","மாநில அவசரகால செயல்பாட்டு மையம் (பெரும்பாலான மாநிலங்கள்)"],"c11":["மாவட்ட அவசரகால செயல்பாட்டு மையம்","ஆட்சியர் கட்டுப்பாட்டு அறை, வெள்ள நிவாரணம் & வெளியேற்றம்"],"c12":["பெண்கள் உதவி எண்","நிவாரண முகாம்கள் / பயணத்தில் பெண்களின் பாதுகாப்பு"],"c13":["குழந்தைகள் உதவி எண்","காணாமல் போன அல்லது பிரிந்த குழந்தைகள்"],"c14":["ரயில்வே உதவி எண்","ரயில் ரத்து & நிலையங்களில் மீட்பு"],"c15":["தேசிய நெடுஞ்சாலை உதவி எண்","சாலைத் தடைகள், நெடுஞ்சாலையில் சிக்கிய வாகனங்கள்"]},"checklists":{"flood":{"before":["உங்கள் பகுதியின் வெள்ள அபாயத்தையும் அருகிலுள்ள உயரமான இடம் / நிவாரண முகாமையும் அறியுங்கள்","அவசரப் பெட்டி தயாராக வைத்திருங்கள்: தண்ணீர் (ஒருவருக்கு நாளுக்கு 3 லி), உலர் உணவு, டார்ச், ரேடியோ, பவர் பேங்க், முதலுதவி","அடையாள அட்டை, காப்பீடு, நில ஆவணங்கள், மருத்துவ ஆவணங்களை நீர்புகாப் பையில் வையுங்கள்","அவசர எண்களை தொலைபேசியிலும் காகிதத்திலும் சேமியுங்கள்","குடும்பம் சந்திக்கும் இடத்தை முடிவு செய்து வெளியேறும் வழியைத் திட்டமிடுங்கள்","மதிப்புமிக்க பொருட்கள், மின்சாதனங்கள், ரசாயனங்களை மேல்தளத்தில் வையுங்கள்","வழக்கமான மருந்துகளை ஒரு மாதத்திற்குச் சேமியுங்கள்","வாகன எரிபொருள் தொட்டியை நிரப்புங்கள்; தொலைபேசி, பவர் பேங்க்களை சார்ஜ் செய்யுங்கள்","IMD / மாநில எச்சரிக்கை செயலிகளை (மௌசம், உமங்) நிறுவி எச்சரிக்கைகளைப் பின்பற்றுங்கள்","முதன்மை மின்சாரம், எரிவாயுவை நிறுத்தும் முறையை அறியுங்கள்"],"during":["வெளியேற அறிவுறுத்தியவுடன் உடனே உயரமான இடத்திற்குச் செல்லுங்கள் - காத்திருக்க வேண்டாம்","முதன்மை சுவிட்சில் மின்சாரத்தையும் எரிவாயு சிலிண்டரையும் நிறுத்துங்கள்","வெள்ள நீரில் நடக்கவோ நீந்தவோ வாகனம் ஓட்டவோ வேண்டாம் (15 செ.மீ. நீரும் கீழே தள்ளும்)","மின்கம்பிகள், வடிகால்கள், திறந்த மேன்ஹோல்களிலிருந்து விலகி இருங்கள்","கொதிக்க வைத்த அல்லது குளோரின் கலந்த நீரை மட்டும் குடியுங்கள்","புதுப்பிப்புகளுக்கு ரேடியோ / அதிகாரப்பூர்வ எச்சரிக்கைகளைக் கேளுங்கள்","முதலில் குழந்தைகள், முதியோர், கர்ப்பிணிகள், மாற்றுத்திறனாளிகளுக்கு உதவுங்கள்","சிக்கிக்கொண்டால் கூரைக்குச் சென்று பிரகாசமான துணி / டார்ச்சால் சமிக்ஞை செய்து 112 / 1077 ஐ அழையுங்கள்","வெளியேறும்போது பெட்டியையும் ஆவணங்களையும் எடுத்துச் செல்லுங்கள்"],"after":["அதிகாரிகள் பாதுகாப்பு என அறிவித்த பின்பே வீடு திரும்புங்கள்","உள்ளே செல்லும் முன் கட்டமைப்புச் சேதம், விரிசல், எரிவாயுக் கசிவைச் சரிபாருங்கள்","மின்வேலையாளர் சோதிக்கும் வரை மின்சாரத்தை இயக்க வேண்டாம்","காப்பீடு, நிவாரணத்திற்காக சேதத்தைப் புகைப்படம் எடுங்கள்","வெள்ள நீர் பட்ட உணவை எறியுங்கள்; குடிநீரைக் கொதிக்க வையுங்கள்","சுவர்கள், தரையைச் சுத்தம் செய்து கிருமிநீக்கம் செய்யுங்கள்; பாம்பு, பூச்சிகளிடம் கவனம்","வெட்டு, வயிற்றுப்போக்கு, காய்ச்சலுக்கு சிகிச்சை / தடுப்பூசி பெறுங்கள்","உள்ளூர் தாலுகா / பஞ்சாயத்து அலுவலகத்தில் அரசு நிவாரணத்திற்குப் பதிவு செய்யுங்கள்","அண்டை வீட்டாரை, குறிப்பாகத் தனியாக வாழும் முதியோரை விசாரியுங்கள்"]},"cyclone":{"before":["IMD புயல் எச்சரிக்கைகளை (மஞ்சள் / ஆரஞ்சு / சிவப்பு) கவனித்து வெளியேற்ற அறிவுரையைப் பின்பற்றுங்கள்","அருகிலுள்ள புயல் தங்குமிடத்தையும் பாதுகாப்பான வழியையும் அறியுங்கள்","கூரை, கதவு, ஜன்னல்களை உறுதிப்படுத்துங்கள்; வீட்டருகே தளர்ந்த கிளைகளை வெட்டுங்கள்","7 நாட்களுக்கான உலர் உணவு, குடிநீர் சேமியுங்கள்","ரேடியோ, டார்ச், உதிரி பேட்டரி, பவர் பேங்க் தயாராக வையுங்கள்","ஆவணங்கள், பணத்தை நீர்புகாப் பையில் வையுங்கள்","மீனவர்கள்: படகுகள், வலைகளை பாதுகாப்பான துறைமுகத்திற்குக் கொண்டுவாருங்கள்; கடலுக்குச் செல்ல வேண்டாம்","தளர்வான பொருட்கள், விளம்பரப் பலகைகள், கால்நடைகளைப் பாதுகாப்பாக வையுங்கள்","தொலைபேசிகளை சார்ஜ் செய்து எரிபொருள் தொட்டியை நிரப்புங்கள்"],"during":["வீட்டின் உறுதியான அறையில், ஜன்னல், கண்ணாடியிலிருந்து விலகி உள்ளே இருங்கள்","மின்சாரம், எரிவாயுவை நிறுத்துங்கள்; மின்சாதனங்களைப் பயன்படுத்த வேண்டாம்","வீடு பாதுகாப்பற்றதெனில் காற்று வலுக்கும் முன் புயல் தங்குமிடம் செல்லுங்கள்","புயலின் 'கண்' அமைதியின் போது வெளியே வர வேண்டாம் - காற்று திடீரெனத் திரும்பும்","அதிகாரப்பூர்வ அறிவுறுத்தல்களுக்கு பேட்டரி ரேடியோவைக் கேளுங்கள்","கடற்கரை, ஆறுகள், தாழ்வான கடலோரப் பகுதிகளிலிருந்து விலகி இருங்கள் (புயல் எழுச்சி)","கூரை சரிந்தால் மெத்தை அல்லது போர்வையால் தற்காத்துக்கொள்ளுங்கள்","உயிருக்கு ஆபத்து எனில் மட்டும் 112 அல்லது 1077 ஐ அழையுங்கள்"],"after":["புயல் முழுமையாகக் கடந்தது என அதிகாரிகள் அறிவிக்கும் வரை தங்குமிடத்தில் இருங்கள்","விழுந்த மின்கம்பிகள், உடைந்த கம்பங்கள், சேதமடைந்த கட்டடங்களிலிருந்து விலகுங்கள்","வெள்ளம் சூழ்ந்த சாலைகள், வேரோடு சாய்ந்த மரங்களிடம் கவனம்","பாதுகாப்பான நீரை மட்டும் குடியுங்கள்; சந்தேகமெனில் கொதிக்க வையுங்கள்","நிவாரணம், காப்பீட்டிற்கு சேதத்தைப் புகைப்படம் எடுங்கள்","காயமடைந்தவர்களுக்கு முதலுதவி அளியுங்கள்; தேவைப்பட்டால் 108 ஐ அழையுங்கள்","எச்சரிக்கை திரும்பப் பெறும் வரை கடலுக்குச் செல்ல வேண்டாம் (மீனவர்கள்)","சமூகத் தூய்மைப் பணியில் உதவுங்கள்; அண்டை வீட்டாரை விசாரியுங்கள்"]}},"guidelines":{"flood":[["1. எச்சரிக்கை பெற்று தகவலுடன் இருங்கள்",["மத்திய நீர் ஆணையம், IMD, உள்ளூர் ரேடியோ, மாநிலப் பேரிடர் ஆணையச் செய்திகளைக் கவனியுங்கள்.","'வாட்ச்' = வெள்ளம் சாத்தியம்; 'வார்னிங்' = வெள்ளம் வருகிறது அல்லது வரவிருக்கிறது.","வதந்திகளை நம்ப வேண்டாம்; அதிகாரப்பூர்வ வழியில் உறுதி செய்யுங்கள்."]],["2. வீட்டையும் குடும்பத்தையும் தயார் செய்யுங்கள்",["மதிப்புமிக்க பொருட்கள், மின்சாதனங்களை எதிர்பார்க்கும் நீர்மட்டத்திற்கு மேல் வையுங்கள்.","நீர் பின்னோக்கி வருவதைத் தடுக்க வடிகால், கழிவறைகளை மணல் மூட்டை / பிளாஸ்டிக்கால் அடையுங்கள்.","அவசரப் பெட்டியைத் தயார் செய்து அனைவருக்கும் வெளியேற்றத் திட்டத்தை விளக்குங்கள்."]],["3. முன்கூட்டியே வெளியேறுங்கள்",["அதிகாரிகள் அறிவுறுத்தியவுடன் புறப்படுங்கள். சாலைகள் நிமிடங்களில் மூழ்கலாம்.","மின்சாரம், எரிவாயுவை நிறுத்தி, வீட்டைப் பூட்டி, பெட்டியை எடுத்துச் செல்லுங்கள்.","குறிப்பிட்ட வழிகளில் செல்லுங்கள்; நீர் வழியாக குறுக்குவழி வேண்டாம்.","அருகிலுள்ள நிவாரண முகாம் அல்லது உயரமான இடத்திற்குச் சென்று முகாம் பொறுப்பாளரிடம் பதிவு செய்யுங்கள்."]],["4. சிக்கிக்கொண்டால்",["மிக உயரமான பாதுகாப்பான இடத்திற்கு (மேல்தளம் / கூரை) செல்லுங்கள். மூடிய மாடியறைக்கு வேண்டாம்.","112, 1077 அல்லது NDRF 9711077372 ஐ அழைத்து இருப்பிடம், நபர்களின் எண்ணிக்கையைச் சொல்லுங்கள்.","டார்ச், விசில், பிரகாசமான துணியால் சமிக்ஞை செய்யுங்கள்.","ஒன்றாக இருங்கள்; தொலைபேசி பேட்டரியைச் சேமியுங்கள்."]],["5. வாகனம் & நடைப் பாதுகாப்பு",["திரும்பிச் செல்லுங்கள் - 30 செ.மீ. நீர் காரையே மிதக்க வைக்கும்.","உயரும் நீரில் வாகனம் நின்றால் அதை விட்டுவிட்டு உயரமான இடத்திற்குச் செல்லுங்கள்.","ஓடும் நீரில் நடக்க வேண்டாம்; வேகமான நீரின் மேல் உள்ள பாலங்களைத் தவிர்க்கவும்."]],["6. உடல்நலம் & நீர்ப் பாதுகாப்பு",["நீரை குறைந்தது 1 நிமிடம் கொதிக்க வையுங்கள் அல்லது குளோரின் மாத்திரை பயன்படுத்துங்கள்.","சோப்பால் கை கழுவுங்கள்; காயங்களை வெள்ள நீரிலிருந்து காக்கவும்.","காய்ச்சல், வயிற்றுப்போக்கு, தோல் தொற்றுக்கு மருத்துவரை அணுகுங்கள்."]],["7. மீட்பு",["பாதுகாப்பு என அறிவித்த பின்பே திரும்புங்கள்; கட்டமைப்புச் சேதத்தைச் சரிபாருங்கள்.","மின்சாரத்தை இயக்கும் முன் வயரிங்கைச் சோதியுங்கள்.","இழப்புகளைப் பதிவு செய்து நிவாரணம் / காப்பீட்டிற்கு விண்ணப்பியுங்கள்."]]],"cyclone":[["1. எச்சரிக்கை நிலைகளைப் புரிந்துகொள்ளுங்கள்",["IMD புயல் முன்-கண்காணிப்பு (72 மணி), புயல் எச்சரிக்கை (48 மணி), அபாய எச்சரிக்கை (24 மணி), கரை கடந்த பின் அறிக்கை வெளியிடும்.","நிறக் குறியீடு: பச்சை (நடவடிக்கை இல்லை), மஞ்சள் (கவனம்), ஆரஞ்சு (தயாராகுங்கள்), சிவப்பு (நடவடிக்கை எடுங்கள்).","மாவட்ட நிர்வாகத்தின் வெளியேற்ற அறிவுரையைப் பின்பற்றுங்கள்."]],["2. வீட்டைப் பாதுகாப்பாக்குங்கள்",["கூரையைக் கயிறு / எடையால் உறுதிப்படுத்துங்கள்; கதவு, ஜன்னல்களை மூடித் தாளிடுங்கள்.","முற்றம், கூரையிலுள்ள தளர்வான பொருட்களை அகற்றுங்கள்.","பலவீனமான கிளைகளை வெட்டுங்கள்; வாகனத்தைப் பாதுகாப்பான இடத்தில் நிறுத்துங்கள்."]],["3. அவசரப் பெட்டியைத் தயாரியுங்கள்",["தண்ணீர், உலர் உணவு, மருந்துகள், முதலுதவி, டார்ச், ரேடியோ, பேட்டரி, பவர் பேங்க்.","நீர்புகாப் பையில் ஆவணங்கள், பணம், தொடர்புப் பட்டியல்.","போர்வை, உடைகள், சுகாதாரப் பொருட்கள், குழந்தை / முதியோர் தேவைகள்."]],["4. புயல் தங்குமிடம் செல்லுங்கள்",["தாழ்வான கடலோரப் பகுதிகளில் உறுதியான கட்டடம் / புயல் தங்குமிடத்திற்குச் செல்லுங்கள்.","காற்று வலுக்கும் முன் புறப்படுங்கள்; சாலைகள் அடைபடலாம்.","பெட்டியுடன், குடும்பம் ஒன்றாக, தங்குமிடத்தில் பதிவு செய்யுங்கள்."]],["5. புயலின் போது",["ஜன்னல்களிலிருந்து விலகி, மிக உறுதியான உள் அறையில் இருங்கள்.","புயலின் 'கண்' நேரத்தில் வெளியே செல்ல வேண்டாம்.","பேட்டரி ரேடியோவை இயக்குங்கள்; மெழுகுவர்த்திக்குப் பதிலாக டார்ச் பயன்படுத்துங்கள்."]],["6. கடலில் / கடற்கரையில்",["மீனவர்கள் முதல் எச்சரிக்கையிலேயே துறைமுகம் திரும்ப வேண்டும்.","படகுகள், வலைகளைப் பாதுகாப்பான இடத்தில் வையுங்கள்; கரையில் தங்க வேண்டாம்.","புயல் எழுச்சி குறித்து எச்சரிக்கை - கடல்நீர் பல கி.மீ. உள்ளே வரலாம்."]],["7. புயலுக்குப் பின்",["அதிகாரிகள் 'பாதுகாப்பு' என அறிவிக்கும் வரை காத்திருங்கள்.","விழுந்த கம்பிகள், பலவீனமான கட்டமைப்புகளிலிருந்து விலகுங்கள்.","முதலுதவி அளியுங்கள்; கடும் காயத்திற்கு 108; காணாமல் போனோர் பற்றி 112 க்குத் தெரிவியுங்கள்."]]]}},"bn":{"contacts":{"c1":["জাতীয় জরুরি নম্বর (এক জানালা)","পুলিশ, দমকল, অ্যাম্বুলেন্স - ব্যালেন্স না থাকলেও যেকোনো ফোনে চলে"],"c2":["NDRF কন্ট্রোল রুম (দিল্লি)","জাতীয় দুর্যোগ মোকাবিলা বাহিনী, ২৪x৭"],"c3":["NDRF হেল্পলাইন (মোবাইল)","বন্যা / ঘূর্ণিঝড়ে উদ্ধারের অনুরোধ"],"c4":["NDMA দুর্যোগ ব্যবস্থাপনা হেল্পলাইন","জাতীয় দুর্যোগ ব্যবস্থাপনা কর্তৃপক্ষ"],"c5":["ভারতীয় কোস্ট গার্ড বিপদ সংকেত","উপকূল ও সমুদ্রে জরুরি অবস্থা, বিপদে মৎস্যজীবী"],"c6":["পুলিশ","স্থানীয় পুলিশ কন্ট্রোল রুম"],"c7":["দমকল পরিষেবা","আগুন ও উদ্ধার"],"c8":["অ্যাম্বুলেন্স","রোগী পরিবহন (গর্ভাবস্থা / শিশু যত্ন)"],"c9":["জরুরি অ্যাম্বুলেন্স","বেশিরভাগ রাজ্যে বিনামূল্যে জরুরি অ্যাম্বুলেন্স"],"c10":["রাজ্য দুর্যোগ হেল্পলাইন","রাজ্য জরুরি অপারেশন কেন্দ্র (বেশিরভাগ রাজ্য)"],"c11":["জেলা জরুরি অপারেশন কেন্দ্র","কালেক্টরেট কন্ট্রোল রুম, বন্যা ত্রাণ ও সরানো"],"c12":["মহিলা হেল্পলাইন","ত্রাণ শিবির / যাতায়াতে মহিলাদের নিরাপত্তা"],"c13":["শিশু হেল্পলাইন","নিখোঁজ বা বিচ্ছিন্ন শিশু"],"c14":["রেলওয়ে হেল্পলাইন","ট্রেন বাতিল ও স্টেশনে উদ্ধার"],"c15":["জাতীয় সড়ক হেল্পলাইন","রাস্তা বন্ধ, হাইওয়েতে আটকে থাকা গাড়ি"]},"checklists":{"flood":{"before":["আপনার এলাকার বন্যা ঝুঁকি এবং কাছের উঁচু জায়গা / ত্রাণ শিবির জেনে রাখুন","জরুরি কিট তৈরি রাখুন: জল (জনপ্রতি দিনে ৩ লিটার), শুকনো খাবার, টর্চ, রেডিও, পাওয়ার ব্যাংক, প্রাথমিক চিকিৎসা","পরিচয়পত্র, বিমা, জমির কাগজ ও চিকিৎসার নথি জলরোধী ব্যাগে রাখুন","জরুরি নম্বর ফোনে এবং কাগজে লিখে রাখুন","পরিবারের জমায়েতের জায়গা ঠিক করুন ও সরে যাওয়ার পথ পরিকল্পনা করুন","দামি জিনিস, বৈদ্যুতিক সামগ্রী ও রাসায়নিক উপরের তলায় রাখুন","নিয়মিত ওষুধ এক মাসের মজুত রাখুন","গাড়ির ট্যাংক ভরুন; ফোন ও পাওয়ার ব্যাংক চার্জ রাখুন","IMD / রাজ্যের অ্যালার্ট অ্যাপ (মৌসম, উমঙ্গ) ইনস্টল করে সতর্কতা অনুসরণ করুন","মেইন বিদ্যুৎ ও গ্যাস বন্ধ করতে শিখুন"],"during":["সরার নির্দেশ পেলেই সঙ্গে সঙ্গে উঁচু জায়গায় যান - দেরি করবেন না","মেইন সুইচে বিদ্যুৎ এবং গ্যাস সিলিন্ডার বন্ধ করুন","বন্যার জলে হাঁটবেন না, সাঁতার কাটবেন না, গাড়ি চালাবেন না (১৫ সেমি জলেও পড়ে যেতে পারেন)","বিদ্যুতের তার, নর্দমা ও খোলা ম্যানহোল থেকে দূরে থাকুন","শুধু ফোটানো বা ক্লোরিন মেশানো জল পান করুন","আপডেটের জন্য রেডিও / সরকারি সতর্কতা শুনুন","আগে শিশু, বৃদ্ধ, গর্ভবতী ও প্রতিবন্ধীদের সাহায্য করুন","আটকে গেলে ছাদে উঠে উজ্জ্বল কাপড় / টর্চে সংকেত দিন এবং 112 / 1077 এ কল করুন","বেরোনোর সময় কিট ও নথি সঙ্গে নিন"],"after":["প্রশাসন নিরাপদ ঘোষণা করার পরই বাড়ি ফিরুন","ঢোকার আগে কাঠামোর ক্ষতি, ফাটল ও গ্যাস লিক দেখুন","ইলেকট্রিশিয়ান পরীক্ষা না করা পর্যন্ত বিদ্যুৎ চালু করবেন না","বিমা ও ত্রাণের জন্য ক্ষতির ছবি তুলুন","বন্যার জলে ছোঁয়া খাবার ফেলে দিন; পানীয় জল ফোটান","দেয়াল ও মেঝে পরিষ্কার ও জীবাণুমুক্ত করুন; সাপ ও পোকা থেকে সাবধান","কাটা, ডায়রিয়া বা জ্বরের চিকিৎসা / টিকা নিন","স্থানীয় তহসিল / পঞ্চায়েত অফিসে সরকারি ত্রাণের জন্য নাম লেখান","প্রতিবেশী, বিশেষ করে একা থাকা বৃদ্ধদের খোঁজ নিন"]},"cyclone":{"before":["IMD ঘূর্ণিঝড় সতর্কতা (হলুদ / কমলা / লাল) দেখুন এবং সরানোর পরামর্শ মানুন","কাছের ঘূর্ণিঝড় আশ্রয়কেন্দ্র ও নিরাপদ পথ জেনে রাখুন","ছাদ, দরজা, জানালা মজবুত করুন; বাড়ির কাছে আলগা ডাল কাটুন","৭ দিনের শুকনো খাবার ও পানীয় জল মজুত করুন","রেডিও, টর্চ, বাড়তি ব্যাটারি ও পাওয়ার ব্যাংক তৈরি রাখুন","নথি ও নগদ টাকা জলরোধী ব্যাগে রাখুন","মৎস্যজীবী: নৌকা ও জাল নিরাপদ বন্দরে আনুন, সমুদ্রে যাবেন না","আলগা জিনিস, হোর্ডিং ও গবাদি পশু নিরাপদ করুন","ফোন চার্জ রাখুন ও গাড়ির ট্যাংক ভরুন"],"during":["বাড়ির সবচেয়ে মজবুত ঘরে, জানালা ও কাচ থেকে দূরে, ভেতরে থাকুন","বিদ্যুৎ ও গ্যাস বন্ধ করুন; বৈদ্যুতিক যন্ত্র ব্যবহার করবেন না","বাড়ি অনিরাপদ হলে বাতাস বাড়ার আগে ঘূর্ণিঝড় আশ্রয়কেন্দ্রে যান","ঝড়ের 'চোখ'-এর শান্ত সময়ে বাইরে যাবেন না - বাতাস হঠাৎ ফিরে আসে","সরকারি নির্দেশের জন্য ব্যাটারির রেডিও শুনুন","সমুদ্রতট, নদী ও নিচু উপকূল থেকে দূরে থাকুন (ঝড়ের জলোচ্ছ্বাস)","ছাদ ভেঙে পড়লে তোশক বা কম্বল দিয়ে নিজেকে বাঁচান","প্রাণঘাতী জরুরি অবস্থায় তবেই 112 বা 1077 এ কল করুন"],"after":["কর্তৃপক্ষ ঘূর্ণিঝড় সম্পূর্ণ কেটে যাওয়ার ঘোষণা না দেওয়া পর্যন্ত আশ্রয়ে থাকুন","ছেঁড়া বিদ্যুতের তার, ভাঙা খুঁটি ও ক্ষতিগ্রস্ত বাড়ি থেকে দূরে থাকুন","জলমগ্ন রাস্তা ও উপড়ে পড়া গাছ থেকে সাবধান","শুধু নিরাপদ জল পান করুন; সন্দেহ হলে ফোটান","ত্রাণ ও বিমার জন্য ক্ষতির ছবি তুলুন","আহতদের প্রাথমিক চিকিৎসা দিন; গুরুতর হলে 108 এ কল করুন","সতর্কতা প্রত্যাহার না হওয়া পর্যন্ত সমুদ্রে নামবেন না (মৎস্যজীবী)","এলাকা পরিষ্কারে সাহায্য করুন ও প্রতিবেশীর খোঁজ নিন"]}},"guidelines":{"flood":[["১. সতর্কতা পান ও খবর রাখুন",["কেন্দ্রীয় জল কমিশন, IMD, স্থানীয় রেডিও ও রাজ্য দুর্যোগ কর্তৃপক্ষের বার্তা দেখুন।","'ওয়াচ' = বন্যা সম্ভব; 'ওয়ার্নিং' = বন্যা হচ্ছে বা আসন্ন।","গুজবে বিশ্বাস করবেন না; সরকারি সূত্রে যাচাই করুন।"]],["২. বাড়ি ও পরিবারকে প্রস্তুত করুন",["দামি জিনিস ও বৈদ্যুতিক সামগ্রী সম্ভাব্য জলস্তরের উপরে রাখুন।","জল উল্টো ঢোকা রুখতে নর্দমা ও শৌচাগার বালির বস্তা / প্লাস্টিকে বন্ধ করুন।","জরুরি কিট গুছিয়ে সবাইকে সরে যাওয়ার পরিকল্পনা বুঝিয়ে দিন।"]],["৩. আগে সরে যান",["কর্তৃপক্ষ পরামর্শ দিলেই রওনা দিন। রাস্তা মিনিটে ডুবে যেতে পারে।","বিদ্যুৎ-গ্যাস বন্ধ করে, বাড়িতে তালা দিয়ে কিট নিয়ে যান।","নির্দিষ্ট পথে যান; জলের মধ্য দিয়ে শর্টকাট নেবেন না।","কাছের ত্রাণ শিবির বা উঁচু জায়গায় গিয়ে শিবিরের দায়িত্বপ্রাপ্তের কাছে নাম লেখান।"]],["৪. আটকে গেলে",["সবচেয়ে উঁচু নিরাপদ জায়গায় (উপরের তলা / ছাদ) যান। বন্ধ চিলেকোঠায় নয়।","112, 1077 বা NDRF 9711077372 এ কল করে অবস্থান ও লোকসংখ্যা জানান।","টর্চ, হুইসেল বা উজ্জ্বল কাপড়ে সংকেত দিন।","একসঙ্গে থাকুন ও ফোনের ব্যাটারি বাঁচান।"]],["৫. গাড়ি ও হাঁটার নিরাপত্তা",["ফিরে যান, ডুববেন না - ৩০ সেমি জলে গাড়িও ভেসে যায়।","জল বাড়লে গাড়ি বন্ধ হলে ছেড়ে উঁচু জায়গায় যান।","স্রোতের জলে হাঁটবেন না; তীব্র স্রোতের সেতু এড়িয়ে চলুন।"]],["৬. স্বাস্থ্য ও জলের নিরাপত্তা",["জল অন্তত ১ মিনিট ফোটান বা ক্লোরিন ট্যাবলেট ব্যবহার করুন।","সাবান দিয়ে হাত ধুন; ক্ষত বন্যার জল থেকে বাঁচান।","জ্বর, ডায়রিয়া বা চর্মরোগে ডাক্তার দেখান।"]],["৭. পুনরুদ্ধার",["নিরাপদ ঘোষণার পরই ফিরুন; কাঠামোর ক্ষতি দেখুন।","বিদ্যুৎ চালুর আগে তার পরীক্ষা করান।","ক্ষতি নথিভুক্ত করে ত্রাণ / বিমার জন্য আবেদন করুন।"]]],"cyclone":[["১. সতর্কতার ধাপ বুঝুন",["IMD প্রি-সাইক্লোন ওয়াচ (৭২ ঘণ্টা), সাইক্লোন অ্যালার্ট (৪৮ ঘণ্টা), ওয়ার্নিং (২৪ ঘণ্টা) এবং ল্যান্ডফলের পর আউটলুক দেয়।","রঙের সংকেত: সবুজ (কিছু নয়), হলুদ (সতর্ক), কমলা (প্রস্তুত), লাল (পদক্ষেপ নিন)।","জেলা প্রশাসনের সরানোর পরামর্শ মানুন।"]],["২. ঘর সুরক্ষিত করুন",["ছাদ দড়ি / ওজন দিয়ে মজবুত করুন; দরজা-জানালা বন্ধ করে খিল দিন।","উঠোন ও ছাদ থেকে আলগা জিনিস সরান।","দুর্বল ডাল কাটুন; গাড়ি নিরাপদ জায়গায় রাখুন।"]],["৩. কিট তৈরি করুন",["জল, শুকনো খাবার, ওষুধ, প্রাথমিক চিকিৎসা, টর্চ, রেডিও, ব্যাটারি, পাওয়ার ব্যাংক।","জলরোধী ব্যাগে নথি, নগদ টাকা ও যোগাযোগের তালিকা।","কম্বল, জামাকাপড়, স্বাস্থ্যবিধির জিনিস, শিশু / বৃদ্ধদের প্রয়োজনীয় জিনিস।"]],["৪. ঘূর্ণিঝড় আশ্রয়কেন্দ্রে যান",["নিচু উপকূলে পাকা বাড়ি / ঘূর্ণিঝড় আশ্রয়কেন্দ্রে যান।","বাতাস বাড়ার আগে রওনা দিন; রাস্তা বন্ধ হতে পারে।","কিট নিয়ে পরিবার একসঙ্গে থাকুন ও আশ্রয়ে নাম লেখান।"]],["৫. ঝড়ের সময়",["জানালা থেকে দূরে, সবচেয়ে মজবুত ভেতরের ঘরে থাকুন।","ঝড়ের 'চোখ'-এর সময় বাইরে যাবেন না।","ব্যাটারির রেডিও চালু রাখুন; মোমবাতি নয়, টর্চ ব্যবহার করুন।"]],["৬. সমুদ্র / উপকূলে",["মৎস্যজীবীরা প্রথম সতর্কতাতেই বন্দরে ফিরুন।","নৌকা ও জাল নিরাপদে রাখুন; তীরে থাকবেন না।","জলোচ্ছ্বাস থেকে সাবধান - সমুদ্রের জল কয়েক কিমি ভেতরে ঢুকতে পারে।"]],["৭. ঘূর্ণিঝড়ের পরে",["কর্তৃপক্ষের 'নিরাপদ' ঘোষণার অপেক্ষা করুন।","ছেঁড়া তার ও দুর্বল কাঠামো থেকে দূরে থাকুন।","প্রাথমিক চিকিৎসা দিন, গুরুতর আঘাতে 108 ডাকুন এবং নিখোঁজদের কথা 112 কে জানান।"]]]}}};
+const SAMPLE = [
+ {kind:'cyclone',sev:'red',place:'Puri',state:'Odisha',lat:19.81,lng:85.83,r:120},
+ {kind:'cyclone',sev:'orange',place:'Visakhapatnam',state:'Andhra Pradesh',lat:17.69,lng:83.22,r:90},
+ {kind:'cyclone',sev:'yellow',place:'Chennai',state:'Tamil Nadu',lat:13.08,lng:80.27,r:80},
+ {kind:'cyclone',sev:'orange',place:'Sundarbans',state:'West Bengal',lat:21.95,lng:88.85,r:100},
+ {kind:'cyclone',sev:'yellow',place:'Okha',state:'Gujarat',lat:22.47,lng:69.07,r:90},
+ {kind:'flood',sev:'red',place:'Guwahati',state:'Assam',lat:26.14,lng:91.74,r:70},
+ {kind:'flood',sev:'orange',place:'Patna',state:'Bihar',lat:25.59,lng:85.14,r:60},
+ {kind:'flood',sev:'red',place:'Alappuzha',state:'Kerala',lat:9.49,lng:76.34,r:60},
+ {kind:'flood',sev:'yellow',place:'Mumbai',state:'Maharashtra',lat:19.07,lng:72.88,r:50},
+ {kind:'flood',sev:'orange',place:'Cuttack',state:'Odisha',lat:20.46,lng:85.88,r:50}
+];
+let ALERTS=SAMPLE;
+const SNAP={"t":"2026-10-10T06:15:00.651Z","data":[{"severity":"WATCH","severity_color":"yellow","disaster_type":"Light Thunderstorm with surface wind","area_description":"Darjeeling","alert_source":"West Bengal SDMA","centroid":"88.16110004661947,27.03835241978222","area_covered":"563.5244439703038","warning_message":"১০-১০-২০২৬ তারিখ ০৯:০৬ থেকে পরবর্তী ২-৩ ঘণ্টার মধ্যে দার্জিলিং জেলার কিছু অংশে হালকা থেকে মাঝারি বজ্রপাতসহ হালকা থেকে মাঝারি বৃষ্টিপাতের প্রবল সম্ভাবনা রয়েছে।","actual_lang":"bn","effective_start_time":"Sat Oct 10 09:06:00 IST 2026","effective_end_time":"Sat Oct 10 12:06:00 IST 2026"},{"severity":"ALERT","severity_color":"orange","disaster_type":"Thunderstorm with Lightning","area_description":"Androth  and Kalpeni Islands","alert_source":"IMD Thiruvananthapuram","centroid":"73.00134106408461,11.486260111582725","area_covered":"14.70","warning_message":"Moderate Thunderstorm with Moderate rainfall (5-15mm/ hour) and wind speed likely to be 50 Kmph (in Gusts) at one or two places over Lakshadweep Island in next 3 hours.","actual_lang":"en","effective_start_time":"Sat Oct 10 09:04:00 IST 2026","effective_end_time":"Sat Oct 10 12:04:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Kahalgaon, Bhagalpur, Bihar","alert_source":"CWC","centroid":"87.23000000065764,25.27000000019433","area_covered":"65.19","warning_message":"River Ganga at Kahalgaon in Bhagalpur district of Bihar continues to flow in above normal flood situation at 8:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 22:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Fatehgarh, Farukkabad, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"79.61999999956723,27.38999999985362","area_covered":"64.0310057697522","warning_message":"उत्तर प्रदेश के फर्रुखाबाद ज़िले के फतेहगढ़ में गंगा नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Dabri, Shahjahanpur, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"79.36999999957007,27.489999999852852","area_covered":"63.9742291400193","warning_message":"उत्तर प्रदेश के शाहजहांपुर ज़िले के डाबरी में गंगा नदी आज सुबह 8:00 बजे भी सामान्य से ज़्यादा बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ghaghra , Elgin Bridge, Barabanki, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"81.49000000167806,27.090000000553356","area_covered":"64.20016981978726","warning_message":"उत्तर प्रदेश के बाराबंकी ज़िले में एल्गिन ब्रिज पर घाघरा नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ghaghra , Ayodhya, Ayodhya, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"82.21000000168509,26.81000000055046","area_covered":"64.35647589965194","warning_message":"उत्तर प्रदेश के अयोध्या ज़िले में अयोध्या में घाघरा नदी आज सुबह 8:00 बजे सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ghaghra , Turtipar, Ballia, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"83.8799999995437,26.139999999862336","area_covered":"64.72428156728512","warning_message":"उत्तर प्रदेश के बलिया ज़िले में तुर्तीपार के पास घाघरा नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Rapti, Gorakhpur  Birdghat, Gorakhpur, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"83.3499999995478,26.729999999857732","area_covered":"64.40085407392768","warning_message":"उत्तर प्रदेश के गोरखपुर ज़िले में गोरखपुर के बर्डघाट पर राप्ती नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Rapti, Bansi, Siddarthnagar, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"82.92999999847646,27.17999999950053","area_covered":"64.14960436271251","warning_message":"उत्तर प्रदेश के सिद्धार्थनगर ज़िले में बंसी के पास राप्ती नदी आज सुबह 8:00 बजे भी सामान्य से ज़्यादा बाढ़ वाली स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 09:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Patna Gandhighat, Patna, Bihar","alert_source":"CWC","centroid":"85.17000000396112,25.62000000119074","area_covered":"65.00","warning_message":"River Ganga at Patna Gandhighat in Patna district of Bihar continues to flow in above normal flood situation at 8:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 08:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Hathidah, Patna, Bihar","alert_source":"CWC","centroid":"85.98999999729872,25.369999999206193","area_covered":"65.14","warning_message":"River Ganga at Hathidah in Patna district of Bihar continues to flow in above normal flood situation at 8:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 08:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Sahibganj, Sahibganj, Jharkhand","alert_source":"Jharkhand SDMA","centroid":"87.64000000293834,25.250000000849543","area_covered":"65.19924999235081","warning_message":"River Ganga at Sahibganj in Sahibganj district of Jharkhand continues to flow in above normal flood situation at 8:00 am today. Disaster Management Department Ranchi Jharkhand","actual_lang":"en","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sun Oct 11 06:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"SAI, Rae-Bareli, Rae-Bareli, Uttar Pradesh","alert_source":"Uttar Pradesh SDMA","centroid":"81.2500000016707,26.2000000005362","area_covered":"64.69170172149455","warning_message":"उत्तर प्रदेश के रायबरेली ज़िले में रायबरेली के पास साई नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।","actual_lang":"hi","effective_start_time":"Sat Oct 10 08:00:00 IST 2026","effective_end_time":"Sat Oct 10 21:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Farakka, Murshidabad, West Bengal","alert_source":"West Bengal SDMA","centroid":"87.9199999983897,24.799999999545737","area_covered":"65.43346502228206","warning_message":"পশ্চিমবঙ্গের মুর্শিদাবাদ জেলার ফারাক্কায় আজ সকাল ৬:০০ টায় গঙ্গা নদী স্বাভাবিকের চেয়ে বেশি বন্যার পরিস্থিতিতে প্রবাহিত হচ্ছে। সকাল ৬:০০ টায় এটি ২১.৮২ মিটার স্তরে কমতির দিকে প্রবাহিত হচ্ছিল,","actual_lang":"bn","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sun Oct 11 20:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Gandak, Dumariaghat, Gopalganj, Bihar","alert_source":"CWC","centroid":"84.75999999843916,26.349999999517966","area_covered":"64.61","warning_message":"River Gandak at Dumariaghat in Gopalganj district of Bihar continues to flow in above normal flood situation at 6:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sun Oct 11 06:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Burhi Gandak, Khagaria, Khagaria, Bihar","alert_source":"CWC","centroid":"86.47999999953178,25.49999999985993","area_covered":"65.07","warning_message":"River Burhi Gandak at Khagaria in Khagaria district of Bihar continues to flow in above normal flood situation at 6:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sun Oct 11 06:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Kosi, Kursela, Katihar, Bihar","alert_source":"CWC","centroid":"87.22999999839092,25.419999999534586","area_covered":"65.11","warning_message":"River Kosi at Kursela in Katihar district of Bihar continues to flow in above normal flood situation at 6:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sun Oct 11 06:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Kosi, Baltara, Khagaria, Bihar","alert_source":"CWC","centroid":"86.72000000290417,25.540000000858203","area_covered":"65.05","warning_message":"River Kosi at Baltara in Khagaria district of Bihar continues to flow in above normal flood situation at 6:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sun Oct 11 06:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Bagmati, Benibad, Muzaffarpur, Bihar","alert_source":"CWC","centroid":"85.67000000065337,26.20000000019983","area_covered":"64.69","warning_message":"River Bagmati at Benibad in Muzaffarpur district of Bihar continues to flow in above normal flood situation at 6:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sat Oct 10 18:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Adhwara Group, Kamtaul, Darbhanga, Bihar","alert_source":"CWC","centroid":"85.85000000510196,26.330000001568777","area_covered":"64.62","warning_message":"River Adhwara Group at Kamtaul in Darbhanga district of Bihar continues to flow in above normal flood situation at 6:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 06:00:00 IST 2026","effective_end_time":"Sat Oct 10 18:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ghaghra, Darauli, Siwan, Bihar","alert_source":"CWC","centroid":"84.12999999954532,26.069999999858194","area_covered":"64.76","warning_message":"River Ghaghra at Darauli in Siwan district of Bihar continues to flow in above normal flood situation at 4:00 am today.","actual_lang":"en","effective_start_time":"Sat Oct 10 04:00:00 IST 2026","effective_end_time":"Sun Oct 11 08:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Farakka, Murshidabad, West Bengal","alert_source":"West Bengal SDMA","centroid":"87.9199999983897,24.799999999545737","area_covered":"65.43346502228206","warning_message":"পশ্চিমবঙ্গের মুর্শিদাবাদ জেলার ফারাক্কায় গঙ্গা নদী আজ সন্ধ্যা ৬টা থেকে স্বাভাবিক বন্যা পরিস্থিতির উপরে প্রবাহিত হচ্ছে।","actual_lang":"bn","effective_start_time":"Fri Oct 09 18:00:00 IST 2026","effective_end_time":"Sun Oct 11 08:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Farakka, Murshidabad, West Bengal","alert_source":"West Bengal SDMA","centroid":"87.9199999983897,24.799999999545737","area_covered":"65.43346502228206","warning_message":"পশ্চিমবঙ্গের মুর্শিদাবাদ জেলার ফারাক্কায় গঙ্গা নদী আজ সন্ধ্যা ৬টা থেকে স্বাভাবিক বন্যা পরিস্থিতির উপরে প্রবাহিত হচ্ছে।","actual_lang":"bn","effective_start_time":"Fri Oct 09 18:00:00 IST 2026","effective_end_time":"Sun Oct 11 08:00:00 IST 2026"},{"severity":"Orange","severity_color":"orange","disaster_type":"Flood","area_description":"Ganga, Kahalgaon, Bhagalpur, Bihar","alert_source":"CWC","centroid":"87.23000000065764,25.27000000019433","area_covered":"65.19","warning_message":"River Ganga at Kahalgaon in Bhagalpur district of Bihar continues to flow in severe flood situation at 8:00 am today.","actual_lang":"en","effective_start_time":"Fri Oct 09 08:00:00 IST 2026","effective_end_time":"Sat Oct 10 22:00:00 IST 2026"},{"severity":"Yellow","severity_color":"yellow","disaster_type":"Flood","area_description":"Ganga, Farakka, Murshidabad, West Bengal","alert_source":"West Bengal SDMA","centroid":"87.9199999983897,24.799999999545737","area_covered":"65.43346502228206","warning_message":"পশ্চিমবঙ্গের মুর্শিদাবাদ জেলার ফারাক্কায় গঙ্গা নদী আজ সকাল 6:00 টায় স্বাভাবিক বন্যা পরিস্থিতির উপরে প্রবাহিত হচ্ছে।","actual_lang":"bn","effective_start_time":"Fri Oct 09 06:00:00 IST 2026","effective_end_time":"Sat Oct 10 20:00:00 IST 2026"}]};
+const SACHET_URL='https://sachet.ndma.gov.in/cap_public_website/FetchAllAlertDetails';
+const STATES=['Andhra Pradesh','Assam','Bihar','Gujarat','Kerala','Maharashtra','Odisha','Tamil Nadu','West Bengal','Other'];
+const SEVCOL={red:'#dc2626',orange:'#f97316',yellow:'#eab308'};
+
+const $=(s,e=document)=>e.querySelector(s), $$=(s,e=document)=>[...e.querySelectorAll(s)];
+const tel=n=>'tel:'+n.replace(/[^\d+]/g,'');
+function h(tag,a,...kids){const e=document.createElement(tag);
+  for(const[k,v]of Object.entries(a||{})){k==='class'?e.className=v:k.startsWith('on')?e.addEventListener(k.slice(2),v):e.setAttribute(k,v)}
+  kids.flat().forEach(c=>e.append(c instanceof Node?c:document.createTextNode(c==null?'':c)));return e}
+
+/* ---------- persistent storage: localStorage + IndexedDB mirror ---------- */
+const KEY='dpa_state_v2';
+let S={lang:'en',chosen:false,mode:'flood',checked:{},contacts:[],plan:{},sub:null};
+let phase='before',filter='all';
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('dpa_db',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function idbGet(){try{const db=await idb();return await new Promise(res=>{const q=db.transaction('kv').objectStore('kv').get(KEY);q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)})}catch(e){return null}}
+function idbSet(v){idb().then(db=>db.transaction('kv','readwrite').objectStore('kv').put(v,KEY)).catch(()=>{})}
+function persist(){
+  const s=JSON.stringify(S);let ok=false;
+  try{localStorage.setItem(KEY,s);ok=true}catch(e){}
+  idbSet(s);
+  $('#stTxt').textContent='✓ '+t('saved_dev')+' • '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+async function boot(){
+  let raw=null;try{raw=localStorage.getItem(KEY)}catch(e){}
+  if(!raw)raw=await idbGet();
+  if(raw){try{Object.assign(S,JSON.parse(raw))}catch(e){}}
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+}
+
+/* ---------- i18n ---------- */
+const t=(k,v)=>{let s=(UI[S.lang]&&UI[S.lang][k])||UI.en[k]||k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s};
+const trl=()=>TR[S.lang]||{};
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  $$('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n));
+  $$('[data-i18n-ph]').forEach(e=>e.placeholder=t(e.dataset.i18nPh));
+  $('#tagline').textContent=t('tag_'+S.mode);$('#gtip').textContent=t('tip_'+S.mode);
+  $$('.mname').forEach(e=>e.textContent=t(S.mode==='flood'?'f_flood':'f_cyc'));
+  $('#langsel').value=S.lang;
+}
+
+/* ---------- mode ---------- */
+function setMode(m){S.mode=m;persist();document.body.classList.toggle('cyclone',m==='cyclone');
+  $('#modeSwitch').setAttribute('aria-checked',m==='cyclone');applyStatic();renderChecks();renderGuide()}
+
+/* ---------- contacts (built-in + My Plan) ---------- */
+function renderContacts(){
+  const q=$('#q').value.toLowerCase(),root=$('#clist');root.replaceChildren();
+  const cards=[];
+  const mine=S.contacts.filter(c=>(c.name+c.rel+c.num).toLowerCase().includes(q));
+  if(mine.length){
+    root.append(h('div',{class:'grp'},t('g_Mine')),h('div',{class:'grid'},mine.map(c=>h('div',{class:'card ct mine'},
+      h('div',{},h('b',{},c.name),h('small',{},c.rel||''),h('small',{class:'src'},t('mine_hint'))),
+      h('a',{class:'call',href:tel(c.num)},'☎ '+c.num)))));
+  }
+  const g={};
+  DATA.contacts.map(c=>{const x=(trl().contacts||{})[c.id]||[c.name,c.note];return{...c,name:x[0],note:x[1]}})
+    .filter(c=>(c.name+c.note+c.number).toLowerCase().includes(q)).forEach(c=>(g[c.group]=g[c.group]||[]).push(c));
+  const gk={'National':'g_National','Medical & Police':'g_Medical','State & District':'g_State','Support':'g_Support'};
+  for(const[k,list]of Object.entries(g)){
+    root.append(h('div',{class:'grp'},t(gk[k])),h('div',{class:'grid'},list.map(c=>h('div',{class:'card ct'},
+      h('div',{},h('b',{},c.name),h('small',{},c.note),h('small',{class:'src'},'✓ '+t('source')+': '+c.source)),
+      h('a',{class:'call',href:tel(c.number)},'☎ '+c.number)))));
+  }
+  if(!mine.length&&!Object.keys(g).length)root.append(h('p',{class:'muted'},t('no_match')));
+}
+
+/* ---------- checklist ---------- */
+function renderChecks(){
+  const items=((trl().checklists||{})[S.mode]||{})[phase]||DATA.checklists[S.mode][phase];
+  const key=i=>S.mode+':'+phase+':'+i,root=$('#items');root.replaceChildren();
+  items.forEach((x,i)=>{const cb=h('input',{type:'checkbox'});cb.checked=!!S.checked[key(i)];
+    cb.onchange=()=>{cb.checked?S.checked[key(i)]=true:delete S.checked[key(i)];persist();renderChecks()};
+    root.append(h('label',{class:'card item'+(cb.checked?' done':'')},cb,h('span',{},x)))});
+  const d=items.filter((_,i)=>S.checked[key(i)]).length,p=Math.round(d/items.length*100);
+  $('#plabel').textContent=t('done_of',{d:d,n:items.length});$('#ppct').textContent=p+'%';$('#pbar').style.width=p+'%';
+}
+function renderGuide(){
+  const tr=(trl().guidelines||{})[S.mode];
+  const list=tr?tr.map(x=>({title:x[0],steps:x[1]})):DATA.guidelines[S.mode];
+  const root=$('#glist');root.replaceChildren();
+  list.forEach((s,i)=>{const d=h('details',{class:'card'},h('summary',{},s.title),h('ol',{},s.steps.map(x=>h('li',{},x))));if(i===0)d.open=true;root.append(d)});
+}
+
+/* ---------- plan ---------- */
+function renderPlan(){
+  const f=$('#pform').elements,p=S.plan||{};f.city.value=p.city||'';f.meet.value=p.meet||'';f.shelter.value=p.shelter||'';f.notes.value=p.notes||'';
+  const root=$('#plist');root.replaceChildren();
+  if(!S.contacts.length)root.append(h('p',{class:'muted'},t('no_pc')));
+  S.contacts.forEach(c=>root.append(h('div',{class:'pc'},h('div',{},h('b',{},c.name),h('small',{class:'muted'},' '+(c.rel||''))),
+    h('div',{},h('a',{href:tel(c.num),style:'font-weight:700;color:var(--p);text-decoration:none'},c.num),
+      h('button',{'aria-label':'Remove',onclick:()=>{S.contacts=S.contacts.filter(x=>x.id!==c.id);persist();renderPlan();renderContacts()}},'×')))))
+}
+
+/* ---------- alert map ---------- */
+let map=null,layer=null,userMk=null,leafletFailed=false;
+let userLoc=null,dataSrc='sample',dataTime=null;
+const visible=()=>ALERTS.filter(a=>filter==='all'||a.kind===filter);
+const kindName=k=>t(k==='flood'?'kind_flood':k==='cyclone'?'kind_cyclone':'kind_other');
+const SEVRANK={red:0,orange:1,yellow:2};
+const withDist=a=>userLoc?Math.round(km(userLoc.lat,userLoc.lng,a.lat,a.lng)):null;
+
+/* ----- live official data: NDMA SACHET (via Start-App.bat helper), else saved snapshot, else sample ----- */
+function norm(a){
+  const c=String(a.centroid||'').split(',').map(Number),lng=c[0],lat=c[1];
+  if(!isFinite(lat)||!isFinite(lng))return null;
+  const dt=a.disaster_type||'';
+  const kind=/cyclone|surge|squall|depression/i.test(dt)?'cyclone':/flood|rain|inundat|dam |river|water/i.test(dt)?'flood':'other';
+  const col=String(a.severity_color||'').toLowerCase();
+  return {kind,sev:col==='red'?'red':col==='orange'?'orange':'yellow',place:a.area_description||'-',
+    state:String(a.alert_source||'').replace(/\s*SDMA$/i,''),lat,lng,
+    r:Math.max(Math.round(Math.sqrt((+a.area_covered||0)/Math.PI)),12),type:dt,msg:a.warning_message||'',end:a.effective_end_time||'',live:true};
+}
+function useData(list,src,time){
+  const n=list.map(norm).filter(Boolean).sort((a,b)=>SEVRANK[a.sev]-SEVRANK[b.sev]);
+  if(!n.length&&src==='live'){ALERTS=[];dataSrc='live';dataTime=time;return true}
+  if(!n.length&&src!=='sample')return false;
+  ALERTS=n.length?n:SAMPLE;dataSrc=n.length?src:'sample';dataTime=time;return true;
+}
+async function getJson(url,ms){const c=new AbortController(),id=setTimeout(()=>c.abort(),ms);
+  try{const r=await fetch(url,{signal:c.signal,cache:'no-store'});if(!r.ok)throw new Error(r.status);const j=await r.json();if(!Array.isArray(j))throw new Error('bad');return j}finally{clearTimeout(id)}}
+async function loadAlerts(){
+  const urls=[];
+  if(location.protocol.indexOf('http')===0)urls.push('/api/alerts');   // same-origin helper from Start-App.bat
+  urls.push(SACHET_URL);                                               // direct (works only if SACHET allows CORS)
+  for(const u of urls){try{const j=await getJson(u,12000);if(useData(j,'live',new Date()))break}catch(e){}}
+  if(dataSrc!=='live'&&SNAP.data&&SNAP.data.length)useData(SNAP.data,'snap',SNAP.t?new Date(SNAP.t):null);
+  renderAlerts();renderSms();
+}
+function renderSource(){
+  const el=$('#dsrc'),tm=dataTime?dataTime.toLocaleString([], {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+  el.textContent=dataSrc==='live'?'● '+t('src_live',{time:tm}):dataSrc==='snap'?t('src_snap',{time:tm}):t('src_sample');
+}
+function renderAlerts(){
+  renderSource();
+  const root=$('#alerts');root.replaceChildren();
+  let list=visible();
+  if(userLoc)list=list.slice().sort((a,b)=>withDist(a)-withDist(b));
+  list.slice(0,60).forEach(a=>{const d=withDist(a);
+    root.append(h('div',{class:'card'},
+      h('div',{class:'row'},h('span',{class:'badge sev-'+a.sev},t('sevs_'+a.sev)),h('b',{},a.type||kindName(a.kind)),a.live?'':h('span',{class:'muted'},'('+t('sample_tag')+')')),
+      h('div',{style:'margin-top:6px;font-weight:700'},a.place),
+      h('div',{class:'muted'},a.state+(d!=null?' • '+t('km_away',{km:d}):'')),
+      a.msg?h('div',{style:'margin-top:6px;font-size:.85rem;line-height:1.45'},a.msg.length>260?a.msg.slice(0,260)+'…':a.msg):'',
+      a.end?h('div',{class:'muted',style:'margin-top:4px'},t('valid_till')+': '+a.end):'')) });
+  drawMap();
+}
+function loadLeaflet(){return new Promise((res,rej)=>{
+  if(window.L)return res();
+  const l=document.createElement('link');l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css';document.head.append(l);
+  const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';s.onload=res;s.onerror=rej;document.head.append(s)})}
+async function initMap(){
+  if(map||leafletFailed)return;
+  try{await loadLeaflet();
+    $('#mapview').replaceChildren();$('#mapview').style.display='block';$('#mapview').style.padding='0';
+    map=L.map("mapview").setView([21.5,80],4.5);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:12,attribution:'Tiles &copy; Esri'}).addTo(map);
+    layer=L.layerGroup().addTo(map);drawMap();
+  }catch(e){leafletFailed=true;$('#mapview').textContent=t('map_offline')}
+}
+function drawMap(){
+  if(!map)return;layer.clearLayers();
+  visible().forEach(a=>{const c=SEVCOL[a.sev];
+    L.circle([a.lat,a.lng],{radius:a.r*1000,color:c,fillColor:c,fillOpacity:.25,weight:2}).addTo(layer)
+      .bindPopup(h('div',{},h('b',{},a.place+', '+a.state),h('br'),(a.type||kindName(a.kind))+' - '+t('sevs_'+a.sev)+(a.live?'':' ('+t('sample_tag')+')')));
+    L.circleMarker([a.lat,a.lng],{radius:6,color:'#fff',weight:2,fillColor:c,fillOpacity:1}).addTo(layer)});
+}
+function km(a,b,c,d){const r=x=>x*Math.PI/180,R=6371,dl=r(c-a),dn=r(d-b);
+  const x=Math.sin(dl/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+async function locate(){
+  const out=$('#nearest');out.style.color='';
+  if(!navigator.geolocation){out.textContent=t('loc_fail');return}
+  if(window.isSecureContext===false){out.textContent=t('loc_insecure');return}
+  // If the user already blocked location, getCurrentPosition would fail silently - explain how to re-enable it.
+  try{const p=await navigator.permissions.query({name:'geolocation'});if(p.state==='denied'){out.style.color='#b91c1c';out.textContent=t('loc_denied');return}}catch(e){}
+  out.textContent=t('loc_asking');   // the browser / phone shows its own "Allow location?" prompt now
+  navigator.geolocation.getCurrentPosition(p=>{
+    userLoc={lat:p.coords.latitude,lng:p.coords.longitude};
+    const here=visible().filter(a=>km(userLoc.lat,userLoc.lng,a.lat,a.lng)<=a.r+10&&a.sev!=='none');
+    const best=visible().map(a=>({a,d:km(userLoc.lat,userLoc.lng,a.lat,a.lng)})).sort((x,y)=>x.d-y.d)[0];
+    if(here.length){out.style.color='#b91c1c';out.textContent=t('in_area',{n:here.length})}
+    else{out.style.color='#047857';out.textContent=t('safe_area')+(best?' '+t('nearest',{place:best.a.place,km:Math.round(best.d)}):'')}
+    renderAlerts();
+    if(map){if(userMk)map.removeLayer(userMk);userMk=L.marker([userLoc.lat,userLoc.lng]).addTo(map);map.flyTo([userLoc.lat,userLoc.lng],here.length||!best?9:6)}
+  },err=>{out.style.color='#b91c1c';out.textContent=err.code===1?t('loc_denied'):t('loc_fail')},{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+}
+
+/* ---------- SMS alerts (registration saved locally + demo) ---------- */
+function renderSms(){
+  const f=$('#sform').elements;
+  const sel=f.state;if(!sel.options.length)STATES.forEach(s=>sel.append(h('option',{value:s},s)));
+  if(S.sub){f.phone.value=S.sub.phone;f.state.value=S.sub.state;f.flood.checked=S.sub.kinds.includes('flood');f.cyclone.checked=S.sub.kinds.includes('cyclone');
+    const kinds=S.sub.kinds.map(kindName).join(' + ');
+    $('#sstatus').textContent='✓ '+t('subscribed',{kinds:kinds,state:S.sub.state,phone:S.sub.phone});
+  }else $('#sstatus').textContent='';
+  updateSmsLink(demoText());
+}
+function pickAlert(){
+  const kinds=S.sub?S.sub.kinds:['flood','cyclone'];
+  return ALERTS.find(a=>S.sub&&a.state===S.sub.state&&kinds.includes(a.kind))||ALERTS.find(a=>kinds.includes(a.kind))||ALERTS[0]||SAMPLE[0];
+}
+function demoText(){const a=pickAlert();return t('sms_demo',{kind:kindName(a.kind),sev:t('sevs_'+a.sev),place:a.place})}
+function updateSmsLink(txt){const ph=S.sub?'+91'+S.sub.phone:'';$('#smslink').href='sms:'+ph+'?body='+encodeURIComponent(txt)}
+function simulate(){
+  const txt=demoText(),box=$('#smsbox');
+  box.replaceChildren(h('small',{},'NDMA-ALERT • '+new Date().toLocaleTimeString()),txt);box.style.display='block';
+  updateSmsLink(txt);
+  try{if('Notification'in window&&Notification.permission==='granted')new Notification(t('title'),{body:txt})}catch(e){}
+}
+
+/* ---------- wiring ---------- */
+function updateNet(){const on=navigator.onLine;$('#net').classList.toggle('off',!on);$('#netTxt').textContent=t(on?'online':'offline')}
+function showTab(tab){$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));$$('section').forEach(s=>s.classList.toggle('on',s.id===tab));
+  if(tab==='map'){initMap().then(()=>{if(map)setTimeout(()=>map.invalidateSize(),50)})}}
+function renderAll(){applyStatic();updateNet();renderContacts();renderChecks();renderGuide();renderPlan();renderAlerts();renderSms();
+  $('#stTxt').textContent='✓ '+t('saved_dev')}
+function setLang(l){S.lang=l;S.chosen=true;persist();$('#langov').style.display='none';renderAll()}
+
+$('#modeSwitch').onclick=()=>setMode(S.mode==='flood'?'cyclone':'flood');
+$('#mFlood').onclick=()=>setMode('flood');$('#mCyc').onclick=()=>setMode('cyclone');
+$('#tabs').onclick=e=>{if(e.target.dataset.t)showTab(e.target.dataset.t)};
+$('#phases').onclick=e=>{const p=e.target.dataset.p;if(!p)return;phase=p;$$('#phases button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));renderChecks()};
+$('#reset').onclick=()=>{Object.keys(S.checked).filter(k=>k.startsWith(S.mode+':'+phase+':')).forEach(k=>delete S.checked[k]);persist();renderChecks()};
+$('#q').oninput=renderContacts;
+$('#langsel').onchange=e=>setLang(e.target.value);
+$('#filters').onclick=e=>{const f=e.target.dataset.f;if(!f)return;filter=f;$$('#filters .chip[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===f));renderAlerts()};
+$('#locate').onclick=locate;
+$('#refresh').onclick=loadAlerts;
+setInterval(()=>{if(document.querySelector('#map.on'))loadAlerts()},300000);
+$('#pform').onsubmit=e=>{e.preventDefault();const f=e.target.elements;S.plan={city:f.city.value,meet:f.meet.value,shelter:f.shelter.value,notes:f.notes.value};
+  persist();$('#saved').textContent='✓ '+t('saved');setTimeout(()=>$('#saved').textContent='',2000)};
+$('#cform').onsubmit=e=>{e.preventDefault();const f=e.target.elements;
+  S.contacts.push({id:'p'+Date.now(),name:f.name.value.trim(),num:f.num.value.trim(),rel:f.rel.value.trim()});
+  persist();e.target.reset();renderPlan();renderContacts()};
+$('#sform').onsubmit=e=>{e.preventDefault();const f=e.target.elements;
+  if(!/^[6-9]\d{9}$/.test(f.phone.value.trim())){$('#sstatus').style.color='#b91c1c';$('#sstatus').textContent=t('sms_bad_phone');return}
+  $('#sstatus').style.color='#047857';
+  const kinds=['flood','cyclone'].filter(k=>f[k].checked);if(!kinds.length)kinds.push('flood','cyclone');
+  S.sub={phone:f.phone.value.trim(),state:f.state.value,kinds:kinds};persist();renderSms();
+  try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(x){}};
+$('#unsub').onclick=()=>{S.sub=null;persist();$('#sform').reset();renderSms()};
+$('#simulate').onclick=simulate;
+$('#export').onclick=()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=h('a',{href:URL.createObjectURL(b),download:'disaster-prep-backup.json'});document.body.append(a);a.click();a.remove()};
+$('#import').onchange=e=>{const fl=e.target.files[0];if(!fl)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(typeof d!=='object'||!d.checked&&!d.contacts)throw 0;Object.assign(S,d);persist();renderAll();setMode(S.mode);$('#impmsg').textContent=t('import_ok')}catch(x){$('#impmsg').textContent=t('import_bad')}};r.readAsText(fl)};
+addEventListener('online',updateNet);addEventListener('offline',updateNet);
+
+(async function start(){
+  const sel=$('#langsel');UI.langs.forEach(([c,n])=>{sel.append(h('option',{value:c},n));
+    $('#langbtns').append(h('button',{class:'lbtn',onclick:()=>setLang(c)},n))});
+  await boot();
+  document.body.classList.toggle('cyclone',S.mode==='cyclone');
+  renderAll();
+  loadAlerts();
+  if(!S.chosen)$('#langov').style.display='flex';
+})();
+</script>
+</body>
+</html>

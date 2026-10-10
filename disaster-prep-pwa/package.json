@@ -1,0 +1,16 @@
+{
+  "name": "disaster-prep-pwa",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "node tests/e2e/offline.mjs && node tests/e2e/offline-control.mjs && node tests/e2e/alerts.mjs && node tests/e2e/journeys.mjs && node tests/e2e/layout.mjs && node tests/e2e/perf3g.mjs",
+    "icons": "python tools/make-icons.py",
+    "check:links": "node tools/check-links.mjs",
+    "build": "node tools/make-dist.mjs",
+    "test:deployed": "node tests/e2e/deployed.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.64.0"
+  }
+}

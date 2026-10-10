@@ -1,0 +1,110 @@
+{
+  "contacts": [
+    { "id": "c1", "group": "National", "name": "National Emergency Number (single window)", "number": "112", "note": "Police, fire, ambulance - works from any phone, even without balance", "source": "Govt. of India ERSS" },
+    { "id": "c2", "group": "National", "name": "NDRF Control Room (Delhi)", "number": "011-24363260", "note": "National Disaster Response Force, 24x7", "source": "ndrf.gov.in" },
+    { "id": "c3", "group": "National", "name": "NDRF Helpline (mobile)", "number": "9711077372", "note": "Rescue requests during floods / cyclones", "source": "ndrf.gov.in" },
+    { "id": "c4", "group": "National", "name": "NDMA Disaster Management Helpline", "number": "1078", "note": "National Disaster Management Authority", "source": "ndma.gov.in" },
+    { "id": "c5", "group": "National", "name": "Indian Coast Guard Distress", "number": "1554", "note": "Coastal & sea emergencies, fishermen in distress", "source": "indiancoastguard.gov.in" },
+    { "id": "c6", "group": "Medical & Police", "name": "Police", "number": "100", "note": "Local police control room", "source": "Govt. of India" },
+    { "id": "c7", "group": "Medical & Police", "name": "Fire Service", "number": "101", "note": "Fire & rescue", "source": "Govt. of India" },
+    { "id": "c8", "group": "Medical & Police", "name": "Ambulance", "number": "102", "note": "Patient transport (pregnancy / child care)", "source": "NHM" },
+    { "id": "c9", "group": "Medical & Police", "name": "Emergency Ambulance", "number": "108", "note": "Free emergency ambulance in most states", "source": "NHM" },
+    { "id": "c10", "group": "State & District", "name": "State Disaster Helpline", "number": "1070", "note": "State Emergency Operations Centre (most states)", "source": "State SDMAs" },
+    { "id": "c11", "group": "State & District", "name": "District Emergency Operations Centre", "number": "1077", "note": "Collectorate control room, flood relief & evacuation", "source": "District Administration" },
+    { "id": "c12", "group": "Support", "name": "Women Helpline", "number": "1091", "note": "Safety of women in relief camps / transit", "source": "Govt. of India" },
+    { "id": "c13", "group": "Support", "name": "Child Helpline", "number": "1098", "note": "Missing or separated children", "source": "CHILDLINE India" },
+    { "id": "c14", "group": "Support", "name": "Railway Helpline", "number": "139", "note": "Train cancellations & rescue at stations", "source": "Indian Railways" },
+    { "id": "c15", "group": "Support", "name": "National Highway Helpline", "number": "1033", "note": "Road blocks, stranded vehicles on highways", "source": "NHAI" }
+  ],
+  "checklists": {
+    "flood": {
+      "before": [
+        "Know your area's flood risk and the nearest high ground / relief camp",
+        "Prepare an emergency kit: water (3 L/person/day), dry food, torch, radio, power bank, first-aid",
+        "Keep documents (ID, insurance, land papers, medical records) in a waterproof pouch",
+        "Save emergency numbers on your phone and on paper",
+        "Agree a family meeting point and plan an evacuation route",
+        "Move valuables, electronics and chemicals to upper floors",
+        "Keep a month's supply of regular medicines",
+        "Fill vehicle fuel tank and charge all phones and power banks",
+        "Install the IMD / state alert apps (e.g. Mausam, Umang) and follow warnings",
+        "Know how to switch off the main electricity and gas supply"
+      ],
+      "during": [
+        "Move to higher ground immediately when told to evacuate - do not wait",
+        "Switch off electricity at the main switch and shut gas cylinders",
+        "Never walk, swim or drive through flood water (15 cm can knock you down)",
+        "Stay away from power lines, drains and open manholes",
+        "Drink only boiled or chlorinated water; avoid flood-water contact",
+        "Keep listening to radio / official alerts for updates",
+        "Help children, elderly, pregnant women and disabled people first",
+        "If trapped, climb to the roof, signal with a bright cloth or torch and call 112 / 1077",
+        "Carry your emergency kit and documents when leaving"
+      ],
+      "after": [
+        "Return home only when authorities declare it safe",
+        "Check for structural damage, cracks and gas leaks before entering",
+        "Do not switch on electricity until an electrician has checked the wiring",
+        "Photograph damage for insurance and relief claims",
+        "Throw away food that touched flood water; boil all drinking water",
+        "Clean and disinfect walls and floors; watch for snakes and insects",
+        "Get vaccinated / treated for cuts, diarrhoea or fever (leptospirosis, cholera, dengue risk)",
+        "Register for government relief at the local Tehsil / Panchayat office",
+        "Check on neighbours, especially elderly people living alone"
+      ]
+    },
+    "cyclone": {
+      "before": [
+        "Track IMD cyclone warnings (Yellow / Orange / Red) and heed evacuation advisories",
+        "Identify your nearest cyclone shelter and a safe route to it",
+        "Secure the roof, doors and windows; trim loose branches near the house",
+        "Store 7 days of dry food and drinking water",
+        "Keep radio, torch, spare batteries and power bank ready",
+        "Keep documents and cash in a waterproof bag",
+        "Fishermen: bring boats and nets to safe harbour and do not venture to sea",
+        "Secure or bring in loose objects, hoardings and cattle",
+        "Charge phones and fill fuel tank"
+      ],
+      "during": [
+        "Stay indoors, away from windows and glass, in the strongest room",
+        "Turn off electricity and gas; avoid using electrical appliances",
+        "If your house is unsafe, go to the designated cyclone shelter before winds rise",
+        "Do not go out during the calm 'eye' of the storm - winds return suddenly",
+        "Keep listening to battery radio for official instructions",
+        "Stay away from beaches, rivers and low coastal areas (storm surge)",
+        "Use a mattress or blankets to protect yourself if roof starts to fail",
+        "Call 112 or 1077 for life-threatening emergencies only"
+      ],
+      "after": [
+        "Stay in shelter until officials say the cyclone has fully passed",
+        "Avoid fallen power lines, broken poles and damaged buildings",
+        "Beware of flooded roads and uprooted trees",
+        "Drink only safe water; boil it if unsure",
+        "Document damage with photos for relief and insurance",
+        "Provide first aid to injured people and call 108 when needed",
+        "Do not enter the sea until the warning is withdrawn (fishermen)",
+        "Help with community clean-up and check on neighbours"
+      ]
+    }
+  },
+  "guidelines": {
+    "flood": [
+      { "title": "1. Get the warning and stay informed", "steps": ["Monitor Central Water Commission and IMD alerts, local radio and your SDMA's messages.", "Understand terms: 'Watch' = flooding possible, 'Warning' = flooding happening or imminent.", "Do not rely on rumours; confirm through official channels."] },
+      { "title": "2. Prepare your home and family", "steps": ["Raise valuables and electrical items above expected water level.", "Block drains and toilets with sandbags / sealed plastic to prevent backflow.", "Pack the emergency kit and brief everyone on the evacuation plan."] },
+      { "title": "3. Evacuate early", "steps": ["Leave as soon as authorities advise. Roads can flood within minutes.", "Switch off power and gas, lock the house and take your kit.", "Use designated routes; never take shortcuts through water.", "Go to the nearest relief camp or higher ground and register with the camp in-charge."] },
+      { "title": "4. If you are trapped", "steps": ["Move to the highest safe point (upper floor / roof). Do not go into a closed attic.", "Call 112, 1077 or NDRF 9711077372 - share your location and number of people.", "Signal with a torch, whistle or bright cloth.", "Stay together and conserve phone battery."] },
+      { "title": "5. Driving & walking safety", "steps": ["Turn around, don't drown - 30 cm of water can float a car.", "If your vehicle stalls in rising water, abandon it and move to high ground.", "Avoid walking through moving water and stay away from bridges over fast water."] },
+      { "title": "6. Health & water safety", "steps": ["Boil water for at least 1 minute or use chlorine tablets.", "Wash hands with soap; avoid flood water contact with wounds.", "Seek medical help for fever, diarrhoea, or skin infections."] },
+      { "title": "7. Recovery", "steps": ["Return only when declared safe; inspect for structural damage.", "Get wiring checked before restoring power.", "Document losses and apply for relief / insurance."] }
+    ],
+    "cyclone": [
+      { "title": "1. Understand the warning stages", "steps": ["IMD issues Pre-cyclone Watch (72 h), Cyclone Alert (48 h), Warning (24 h) and Post-landfall Outlook.", "Colour codes: Green (no action), Yellow (be aware), Orange (be prepared), Red (take action).", "Follow your district administration's evacuation advisories."] },
+      { "title": "2. Secure your home", "steps": ["Strengthen the roof with ropes / weights; close and bolt doors and windows.", "Remove loose objects from the courtyard and roof.", "Cut weak branches; park vehicles in a safe, sheltered spot."] },
+      { "title": "3. Build your kit", "steps": ["Water, dry food, medicines, first-aid, torch, radio, batteries, power bank.", "Waterproof pouch with documents, cash and a list of contacts.", "Blankets, clothes, hygiene supplies and baby / elderly care items."] },
+      { "title": "4. Evacuate to a cyclone shelter", "steps": ["Move to a pucca building / cyclone shelter in low-lying coastal zones.", "Go before the winds pick up; roads may become impassable.", "Carry the kit, keep family together, register at the shelter."] },
+      { "title": "5. During the storm", "steps": ["Stay inside in the strongest, innermost room away from windows.", "Do not step outside during the eye of the cyclone.", "Keep a battery radio on for updates; avoid candles - use torches."] },
+      { "title": "6. At sea / coast", "steps": ["Fishermen must return to harbour on first warning.", "Move boats and nets to safe places; do not stay near the shore.", "Beware of storm surge - sea water can rush several kilometres inland."] },
+      { "title": "7. After the cyclone", "steps": ["Wait for the 'all clear' from authorities.", "Avoid fallen wires and weakened structures.", "Give first aid, call 108 for serious injuries, and share news of missing people with 112."] }
+    ]
+  }
+}

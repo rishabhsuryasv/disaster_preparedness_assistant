@@ -1,0 +1,305 @@
+{
+ "label": "SAMPLE - saved copy of real SACHET data and ThinkHazard levels. Not live. For demos only.",
+ "savedAt": "2026-10-10T06:15:00Z",
+ "source": "SACHET (NDMA) https://sachet.ndma.gov.in/cap_public_website/rss/rss_india.xml",
+ "items": [
+  {
+   "id": "1791612945984007",
+   "title": "Light to Moderate Rain with Thunderstorm and Lightning is very likely to occur at isolated places over Ariyalur, Cuddalore, Kanniyakumari, Mayiladuthurai, Nagapattinam, Perambalur, Pudukkottai, Ramanathapuram, Sivaganga, Thanjavur, The Nilgiris, Thiruvarur, Thoothukkudi, Tirunelveli in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791612945984007",
+   "pubDate": "2026-10-10T06:15:49.000Z"
+  },
+  {
+   "id": "1791564404451007",
+   "title": "Light to Moderate Rain is likely to occur at isolated places over Coimbatore, Kanniyakumari, Karur, Namakkal, Salem, Sivaganga, Tenkasi, Theni, The Nilgiris, Tiruchirappalli, Tiruppur, Virudhunagar in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791564404451007",
+   "pubDate": "2026-10-09T16:46:47.000Z"
+  },
+  {
+   "id": "1791564403517007",
+   "title": "Moderate Rain with Thunderstorms is very likely to occur at isolated places over Dindigul, Erode, Madurai in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791564403517007",
+   "pubDate": "2026-10-09T16:46:45.000Z"
+  },
+  {
+   "id": "1791552348353007",
+   "title": "Light to Moderate Rain with Thunderstorm and Lightning is very likely to occur at isolated places over Coimbatore, Kanniyakumari, Karur, Namakkal, Pudukkottai, Tenkasi, Theni, The Nilgiris, Tiruchirappalli, Tirunelveli, Vellore, Virudhunagar in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791552348353007",
+   "pubDate": "2026-10-09T13:25:51.000Z"
+  },
+  {
+   "id": "1791552347732007",
+   "title": "Moderate Rain with Thunderstorm and Li9ghtning is very likely to occur at isolated places over Dindigul, Madurai,Sivaganga in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791552347732007",
+   "pubDate": "2026-10-09T13:25:49.000Z"
+  },
+  {
+   "id": "1791552194319007",
+   "title": "Light to Moderate Rain with Thunderstorm and Lightning is very likely to occur at isolated places over Coimbatore, Kanniyakumari, Karur, Namakkal, Pudukkottai, Sivaganga, Tenkasi, Theni, The Nilgiris, Tiruchirappalli, Tirunelveli, Vellore, Virudhunagar in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791552194319007",
+   "pubDate": "2026-10-09T13:23:17.000Z"
+  },
+  {
+   "id": "1791552193822007",
+   "title": "Moderate Rain with Thunderstorm and Li9ghtning is very likely to occur at isolated places over Dindigul, Madurai in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791552193822007",
+   "pubDate": "2026-10-09T13:23:15.000Z"
+  },
+  {
+   "id": "1791541287433041",
+   "title": "Lifgt to Moderate Rain with Thunderstorm and Lightning is very likely to occur at isolated places over Aryr, Cgl, Chn, Cmb, Cdl, Dhp, Dgl, Erd, Kan, KkR, Kiri, Mdr, Myl, Ngp, Prm, Rmn, Rnp, Sgn, Tkasi, Tjr, Thn, Nilgiris, Thr, Tkd, Tveli, Tvmalai, Vlp, Vrd, Karaikal, Pondicherry in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791541287433041",
+   "pubDate": "2026-10-09T10:23:48.000Z"
+  },
+  {
+   "id": "1791541284029007",
+   "title": "Lifgt to Moderate Rain with Thunderstorm and Lightning is very likely to occur at isolated places over Aryr, Cgl, Chn, Cmb, Cdl, Dhp, Dgl, Erd, Kan, KkR, Kiri, Mdr, Myl, Ngp, Prm, Rmn, Rnp, Sgn, Tkasi, Tjr, Thn, Nilgiris, Thr, Tkd, Tveli, Tvmalai, Vlp, Vrd, Karaikal, Pondicherry in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Chennai",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791541284029007",
+   "pubDate": "2026-10-09T10:21:28.000Z"
+  },
+  {
+   "id": "1791613451459028",
+   "title": "Thunderstorm with Lightning/Gusty winds speed 30-40 kmph is likely to occur at isolated places over Bikaner, Churu, Ganganagar, Hanumangarh in next 24 hours.",
+   "category": "Met",
+   "agency": "IMD Jaipur",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791613451459028",
+   "pubDate": "2026-10-10T06:24:13.000Z"
+  },
+  {
+   "id": "1791608368182027",
+   "title": "River Ganga at Sahibganj in Sahibganj district of Jharkhand continues to flow in above normal flood situation at 8:00 am today. Disaster Management Department Ranchi Jharkhand",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791608368182027",
+   "pubDate": "2026-10-10T05:55:57.000Z"
+  },
+  {
+   "id": "1791608367266017",
+   "title": "পশ্চিমবঙ্গের মুর্শিদাবাদ জেলার ফারাক্কায় আজ সকাল ৬:০০ টায় গঙ্গা নদী স্বাভাবিকের চেয়ে বেশি বন্যার পরিস্থিতিতে প্রবাহিত হচ্ছে। সকাল ৬:০০ টায় এটি ২১.৮২ মিটার স্তরে কমতির দিকে প্রবাহিত হচ্ছিল,",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791608367266017",
+   "pubDate": "2026-10-10T05:03:02.000Z"
+  },
+  {
+   "id": "1791608368042016",
+   "title": "River Ghaghra at Darauli in Siwan district of Bihar continues to flow in above normal flood situation at 4:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791608368042016",
+   "pubDate": "2026-10-10T04:59:30.000Z"
+  },
+  {
+   "id": "1791608367941016",
+   "title": "River Ganga at Kahalgaon in Bhagalpur district of Bihar continues to flow in above normal flood situation at 8:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791608367941016",
+   "pubDate": "2026-10-10T04:59:29.000Z"
+  },
+  {
+   "id": "1791608367726016",
+   "title": "River Ganga at Hathidah in Patna district of Bihar continues to flow in above normal flood situation at 8:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791608367726016",
+   "pubDate": "2026-10-10T04:59:29.000Z"
+  },
+  {
+   "id": "1791608367506016",
+   "title": "River Ganga at Patna Gandhighat in Patna district of Bihar continues to flow in above normal flood situation at 8:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791608367506016",
+   "pubDate": "2026-10-10T04:59:29.000Z"
+  },
+  {
+   "id": "1791604231831013",
+   "title": "उत्तर प्रदेश के सिद्धार्थनगर ज़िले में बंसी के पास राप्ती नदी आज सुबह 8:00 बजे भी सामान्य से ज़्यादा बाढ़ वाली स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604231831013",
+   "pubDate": "2026-10-10T03:57:04.000Z"
+  },
+  {
+   "id": "1791604231616013",
+   "title": "उत्तर प्रदेश के गोरखपुर ज़िले में गोरखपुर के बर्डघाट पर राप्ती नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604231616013",
+   "pubDate": "2026-10-10T03:55:58.000Z"
+  },
+  {
+   "id": "1791604231422013",
+   "title": "उत्तर प्रदेश के बलिया ज़िले में तुर्तीपार के पास घाघरा नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604231422013",
+   "pubDate": "2026-10-10T03:54:48.000Z"
+  },
+  {
+   "id": "1791604231056013",
+   "title": "उत्तर प्रदेश के बाराबंकी ज़िले में एल्गिन ब्रिज पर घाघरा नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604231056013",
+   "pubDate": "2026-10-10T03:53:45.000Z"
+  },
+  {
+   "id": "1791604231027013",
+   "title": "उत्तर प्रदेश के अयोध्या ज़िले में अयोध्या में घाघरा नदी आज सुबह 8:00 बजे सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604231027013",
+   "pubDate": "2026-10-10T03:52:18.000Z"
+  },
+  {
+   "id": "1791604137523016",
+   "title": "River Kosi at Baltara in Khagaria district of Bihar continues to flow in above normal flood situation at 6:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604137523016",
+   "pubDate": "2026-10-10T03:48:58.000Z"
+  },
+  {
+   "id": "1791604137035016",
+   "title": "River Kosi at Kursela in Katihar district of Bihar continues to flow in above normal flood situation at 6:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604137035016",
+   "pubDate": "2026-10-10T03:48:58.000Z"
+  },
+  {
+   "id": "1791604137138016",
+   "title": "River Burhi Gandak at Khagaria in Khagaria district of Bihar continues to flow in above normal flood situation at 6:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791604137138016",
+   "pubDate": "2026-10-10T03:48:58.000Z"
+  },
+  {
+   "id": "1791603612428013",
+   "title": "उत्तर प्रदेश के रायबरेली ज़िले में रायबरेली के पास साई नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791603612428013",
+   "pubDate": "2026-10-10T03:44:22.000Z"
+  },
+  {
+   "id": "1791603612266013",
+   "title": "उत्तर प्रदेश के शाहजहांपुर ज़िले के डाबरी में गंगा नदी आज सुबह 8:00 बजे भी सामान्य से ज़्यादा बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791603612266013",
+   "pubDate": "2026-10-10T03:43:11.000Z"
+  },
+  {
+   "id": "1791603684086017",
+   "title": "১০-১০-২০২৬ তারিখ ০৯:০৬ থেকে পরবর্তী ২-৩ ঘণ্টার মধ্যে দার্জিলিং জেলার কিছু অংশে হালকা থেকে মাঝারি বজ্রপাতসহ হালকা থেকে মাঝারি বৃষ্টিপাতের প্রবল সম্ভাবনা রয়েছে।",
+   "category": "Met",
+   "agency": "IMD Kolkata",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791603684086017",
+   "pubDate": "2026-10-10T03:42:55.000Z"
+  },
+  {
+   "id": "1791603611999013",
+   "title": "उत्तर प्रदेश के फर्रुखाबाद ज़िले के फतेहगढ़ में गंगा नदी आज सुबह 8:00 बजे भी सामान्य से ऊपर बाढ़ की स्थिति में बह रही है।",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791603611999013",
+   "pubDate": "2026-10-10T03:41:48.000Z"
+  },
+  {
+   "id": "1791603365008031",
+   "title": "Moderate Thunderstorm with Moderate rainfall (5-15mm/ hour) and wind speed likely to be 50 Kmph (in Gusts) at one or two places over Lakshadweep Island in next 3 hours.",
+   "category": "Met",
+   "agency": "IMD Thiruvananthapuram",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791603365008031",
+   "pubDate": "2026-10-10T03:36:06.000Z"
+  },
+  {
+   "id": "1791603151462016",
+   "title": "River Gandak at Dumariaghat in Gopalganj district of Bihar continues to flow in above normal flood situation at 6:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791603151462016",
+   "pubDate": "2026-10-10T03:32:32.000Z"
+  },
+  {
+   "id": "1791597852156016",
+   "title": "River Adhwara Group at Kamtaul in Darbhanga district of Bihar continues to flow in above normal flood situation at 6:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791597852156016",
+   "pubDate": "2026-10-10T02:04:13.000Z"
+  },
+  {
+   "id": "1791597851928016",
+   "title": "River Bagmati at Benibad in Muzaffarpur district of Bihar continues to flow in above normal flood situation at 6:00 am today.",
+   "category": "Met",
+   "agency": "CWC",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791597851928016",
+   "pubDate": "2026-10-10T02:04:13.000Z"
+  },
+  {
+   "id": "1791597554738037",
+   "title": "Light Thunderstorm and lightning accompanied with light to moderate rain very likely to affect over some parts of Gyalshing, Soreng, Namchi districts during next 2-3 hours from 07:30, 10-10-2026.",
+   "category": "Met",
+   "agency": "IMD Gangtok",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791597554738037",
+   "pubDate": "2026-10-10T02:01:26.000Z"
+  },
+  {
+   "id": "1791596223905016",
+   "title": "अगले 3 घंटों (07:10 AM से 10:10 AM) में आपके क्षेत्र में कुछ स्थानों पर मध्यम दर्जे की मेघ गर्जन, वज्रपात तथा वर्षा के साथ (40-50 kmph) तेज हवा होने की प्रबल संभावना है।",
+   "category": "Met",
+   "agency": "IMD Patna",
+   "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1791596223905016",
+   "pubDate": "2026-10-10T01:39:19.000Z"
+  }
+ ],
+ "hazard": {
+  "name": "Tamil Nadu, India",
+  "reportUrl": "https://thinkhazard.org/en/report/1508-india-tamil-nadu",
+  "levels": [
+   {
+    "id": "FL",
+    "type": "River flood",
+    "level": "High"
+   },
+   {
+    "id": "UF",
+    "type": "Urban flood",
+    "level": "Medium"
+   },
+   {
+    "id": "CF",
+    "type": "Coastal flood",
+    "level": "High"
+   },
+   {
+    "id": "CY",
+    "type": "Cyclone",
+    "level": "High"
+   }
+  ]
+ }
+}

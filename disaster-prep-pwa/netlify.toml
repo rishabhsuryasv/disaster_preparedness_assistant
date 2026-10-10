@@ -1,0 +1,19 @@
+[build]
+  command = "node tools/make-dist.mjs"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+# Service worker must never be served stale, or users never get updates.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Disaster Preparedness Assistant - India</title>
+<style>
+:root{--p:#1d6fd8;--p-dark:#0b3d8f;--p-soft:#e6f0fd;--bg:#f1f5f9;--ink:#1e293b;--mut:#64748b;--line:#e2e8f0}
+body.cyclone{--p:#0f8b8d;--p-dark:#1f3a4d;--p-soft:#e0f4f4;--bg:#eef2f4}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,"Segoe UI","Nirmala UI",Latha,"Vrinda",Roboto,sans-serif;background:var(--bg);color:var(--ink);transition:background .4s}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+.sos{background:#dc2626;color:#fff;position:sticky;top:0;z-index:30;animation:flash 1.4s infinite}
+@keyframes flash{0%,100%{background:#dc2626}50%{background:#7f1111}}
+.sos .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-top:8px;padding-bottom:8px}
+.sos b{letter-spacing:.04em;font-size:.95rem}
+.sos .dials{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.dial{background:#fff;color:#b91c1c;font-weight:800;text-decoration:none;border-radius:999px;padding:5px 12px;font-size:.85rem;white-space:nowrap}
+.dial:hover{background:#fee2e2}
+@media(prefers-reduced-motion:reduce){.sos,.fab::before{animation:none}}
+header{background:linear-gradient(135deg,var(--p),var(--p-dark));color:#fff;transition:background .4s}
+header .wrap{padding-top:18px;padding-bottom:20px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+h1{margin:0;font-size:1.7rem}
+header p{margin:4px 0 0;opacity:.92}
+.langsel{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:10px;padding:7px 10px;font:inherit;font-weight:700;width:auto;cursor:pointer}
+.langsel option{color:#111}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:14px}
+.pill{display:flex;align-items:center;gap:8px;font-size:.85rem;background:rgba(255,255,255,.16);padding:6px 14px;border-radius:999px}
+.mode{font-weight:700;gap:10px}
+.mode span{cursor:pointer;opacity:.6}
+body:not(.cyclone) #mFlood,body.cyclone #mCyc{opacity:1}
+.switch{position:relative;width:54px;height:28px;background:rgba(255,255,255,.35);border-radius:999px;cursor:pointer;border:0;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:transform .25s}
+body.cyclone .switch::after{transform:translateX(26px)}
+.dot{width:10px;height:10px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.off .dot{background:#fbbf24}
+nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:46px;z-index:20}
+nav .wrap{display:flex;overflow-x:auto}
+nav button{border:0;background:none;padding:14px 16px;font:inherit;font-weight:700;font-size:.92rem;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--p);border-color:var(--p)}
+main{padding:24px 16px 110px}
+section{display:none}section.on{display:block}
+h2{margin:0 0 12px;font-size:1.3rem}h3{margin:0 0 8px;font-size:1.05rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.grp{font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:20px 0 8px}
+.ct{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ct small{display:block;color:var(--mut)}.ct .src{color:#047857;margin-top:3px}.ct.mine{border-color:var(--p);background:var(--p-soft)}
+.call{background:#dc2626;color:#fff;text-decoration:none;font-weight:800;border-radius:10px;padding:9px 12px;white-space:nowrap;font-size:.9rem}
+input,textarea,select{font:inherit;border:1px solid #cbd5e1;border-radius:10px;padding:9px 11px;width:100%;background:#fff;color:var(--ink)}
+label{font-size:.85rem;display:block;margin-bottom:10px}label input,label textarea,label select{margin-top:4px}
+.btn{background:var(--p);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.gray{background:#64748b}.btn.red{background:#dc2626}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;background:#dbe2ea;border-radius:10px;padding:4px;margin:6px 0 14px}
+.seg button{border:0;background:none;padding:7px 18px;border-radius:7px;font:inherit;font-weight:700;color:#475569;cursor:pointer}
+.seg button.on{background:#fff;color:var(--p);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.prog{height:12px;background:#dbe2ea;border-radius:99px;overflow:hidden;margin:6px 0 14px}
+.prog div{height:100%;background:var(--p);width:0;transition:width .3s}
+.item{display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;cursor:pointer}
+.item input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--p);flex-shrink:0}
+.item.done span{text-decoration:line-through;opacity:.55}
+details{margin-bottom:10px}summary{font-weight:700;cursor:pointer}
+details ol{margin:10px 0 0;padding-left:22px;color:#334155;line-height:1.6}
+.two{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+@media(max-width:700px){.two{grid-template-columns:1fr}.sos .dials{margin-left:0}h1{font-size:1.35rem}nav{position:static}}
+.pc{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.pc button{background:none;border:0;font-size:1.3rem;color:#94a3b8;cursor:pointer}
+.tip{background:var(--p-soft);border-left:4px solid var(--p);padding:10px 14px;border-radius:8px;font-size:.9rem;margin-bottom:14px}
+.saved{color:#047857;font-size:.85rem;margin-left:8px}
+.muted{color:var(--mut);font-size:.82rem}
+/* map */
+#mapview{height:400px;border-radius:14px;border:1px solid var(--line);background:#dbe7f0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:6px 14px;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer}
+.chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;margin:8px 0}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.badge{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:800;color:#fff}
+.sev-red{background:#dc2626}.sev-orange{background:#f97316}.sev-yellow{background:#ca8a04}
+.links a{display:inline-block;margin:0 10px 6px 0;color:var(--p);font-weight:700}
+.sms{background:#0f172a;color:#e2e8f0;border-radius:18px;padding:12px 14px;margin-top:12px;font-size:.9rem;max-width:420px;display:none}
+.sms small{display:block;color:#94a3b8;margin-bottom:4px}
+.chk{display:inline-flex;align-items:center;gap:6px;margin-right:14px}.chk input{width:auto;margin:0}
+.warn{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:10px 12px;font-size:.82rem;margin-top:12px;line-height:1.5}
+/* floating SOS */
+.fab{position:fixed;right:16px;bottom:16px;z-index:2000;width:76px;height:76px;border-radius:50%;background:#dc2626;color:#fff;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;box-shadow:0 6px 18px rgba(0,0,0,.35);border:3px solid #fff}
+.fab::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:3px solid #dc2626;animation:pulse 1.5s infinite}
+@keyframes pulse{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.3);opacity:0}}
+.fab b{font-size:1.25rem;line-height:1}.fab small{font-size:.8rem;font-weight:800}
+/* language overlay */
+#langov{position:fixed;inset:0;z-index:3000;background:linear-gradient(135deg,#0b3d8f,#0f8b8d);display:none;align-items:center;justify-content:center;padding:20px}
+#langov .box{background:#fff;border-radius:20px;padding:26px;max-width:420px;width:100%;text-align:center}
+#langov h2{font-size:1.4rem}
+#langov .lbtn{display:block;width:100%;margin:10px 0;padding:14px;font:inherit;font-size:1.15rem;font-weight:800;border:2px solid #cbd5e1;border-radius:12px;background:#fff;cursor:pointer}
+#langov .lbtn:hover{border-color:#1d6fd8;background:#e6f0fd}
+</style>
+</head>
+<body>
+
+<div id="langov"><div class="box">
+  <div style="font-size:2.4rem">&#127760;</div>
+  <h2>Choose your language / भाषा चुनें<br>மொழி / ভাষা</h2>
+  <div id="langbtns"></div>
+</div></div>
+
+<div class="sos" role="alert">
+  <div class="wrap">
+    <b>&#9888; <span data-i18n="sos_title"></span></b>
+    <div class="dials">
+      <a class="dial" href="tel:112" data-i18n="d112"></a>
+      <a class="dial" href="tel:100" data-i18n="d100"></a>
+      <a class="dial" href="tel:108" data-i18n="d108"></a>
+      <a class="dial" href="tel:101" data-i18n="d101"></a>
+      <a class="dial" href="tel:9711077372" data-i18n="dndrf"></a>
+      <a class="dial" href="tel:1078" data-i18n="d1078"></a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div><h1 data-i18n="title"></h1><p id="tagline"></p></div>
+      <select id="langsel" class="langsel" aria-label="Language"></select>
+    </div>
+    <div class="bar">
+      <div class="pill mode"><span id="mFlood">&#127754; <i data-i18n="flood_mode" style="font-style:normal"></i></span>
+        <button class="switch" id="modeSwitch" role="switch" aria-label="Flood / Cyclone"></button>
+        <span id="mCyc">&#127744; <i data-i18n="cyc_mode" style="font-style:normal"></i></span></div>
+      <div class="pill" id="net"><i class="dot"></i><span id="netTxt"></span></div>
+      <div class="pill"><i class="dot"></i><span id="stTxt"></span></div>
+    </div>
+  </div>
+</header>
+
+<nav><div class="wrap" id="tabs">
+  <button data-t="contacts" class="on" data-i18n="tab_contacts"></button>
+  <button data-t="map" data-i18n="tab_map"></button>
+  <button data-t="check" data-i18n="tab_check"></button>
+  <button data-t="guide" data-i18n="tab_guide"></button>
+  <button data-t="plan" data-i18n="tab_plan"></button>
+</div></nav>
+
+<main class="wrap">
+  <section id="contacts" class="on">
+    <h2 data-i18n="contacts_h"></h2>
+    <input id="q" type="search" data-i18n-ph="search_ph" style="max-width:380px;margin-bottom:6px">
+    <div id="clist"></div>
+    <p class="muted" data-i18n="contacts_note"></p>
+  </section>
+
+  <section id="map">
+    <h2 data-i18n="map_h"></h2>
+    <div class="tip" id="dsrc"></div>
+    <div class="chips" id="filters">
+      <button class="chip on" data-f="all" data-i18n="f_all"></button>
+      <button class="chip" data-f="flood" data-i18n="f_flood"></button>
+      <button class="chip" data-f="cyclone" data-i18n="f_cyc"></button>
+      <button class="chip" data-f="other" data-i18n="f_other"></button>
+      <button class="chip" id="refresh" data-i18n="refresh" style="margin-left:auto"></button>
+      <button class="chip on" id="locate" data-i18n="locate">&#128205;</button>
+    </div>
+    <div id="mapbox"><div id="mapview"></div></div>
+    <div class="legend">
+      <span><i class="sw sev-red"></i><i data-i18n="sev_red" style="font-style:normal"></i></span>
+      <span><i class="sw sev-orange"></i><i data-i18n="sev_orange" style="font-style:normal"></i></span>
+      <span><i class="sw sev-yellow"></i><i data-i18n="sev_yellow" style="font-style:normal"></i></span>
+    </div>
+    <p id="nearest" class="muted" style="font-weight:700"></p>
+
+    <h3 style="margin-top:18px" data-i18n="alerts_list"></h3>
+    <div class="grid" id="alerts"></div>
+
+    <h3 style="margin-top:22px" data-i18n="official"></h3>
+    <div class="links">
+      <a href="https://sachet.ndma.gov.in" target="_blank" rel="noopener">NDMA SACHET</a>
+      <a href="https://mausam.imd.gov.in" target="_blank" rel="noopener">IMD Mausam</a>
+      <a href="https://ffs.india-water.gov.in" target="_blank" rel="noopener">CWC Flood Forecast</a>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2 data-i18n="sms_h"></h2>
+      <p class="muted" data-i18n="sms_note"></p>
+      <form id="sform" class="two" style="gap:10px 16px">
+        <label><span data-i18n="sms_phone"></span><input name="phone" inputmode="numeric" maxlength="10" placeholder="98XXXXXXXX" required></label>
+        <label><span data-i18n="sms_state"></span><select name="state"></select></label>
+        <div style="grid-column:1/-1"><div class="muted" data-i18n="sms_types" style="margin-bottom:6px"></div>
+          <label class="chk"><input type="checkbox" name="flood" checked> <span data-i18n="f_flood"></span></label>
+          <label class="chk"><input type="checkbox" name="cyclone" checked> <span data-i18n="f_cyc"></span></label></div>
+        <div class="row" style="grid-column:1/-1">
+          <button class="btn" data-i18n="subscribe"></button>
+          <button type="button" class="btn gray" id="unsub" data-i18n="unsub"></button>
+        </div>
+      </form>
+      <p id="sstatus" style="font-weight:700;color:#047857"></p>
+      <div class="row">
+        <button type="button" class="btn red" id="simulate" data-i18n="simulate"></button>
+        <a class="btn gray" id="smslink" href="#" data-i18n="send_sms"></a>
+      </div>
+      <div class="sms" id="smsbox"></div>
+      <div class="warn" data-i18n="sms_real"></div>
+    </div>
+  </section>
+
+  <section id="check">
+    <h2><span data-i18n="check_h"></span> &mdash; <span class="mname"></span></h2>
+    <div class="muted" data-i18n="check_note"></div>
+    <div class="seg" id="phases"><button data-p="before" class="on" data-i18n="before"></button><button data-p="during" data-i18n="during"></button><button data-p="after" data-i18n="after"></button></div>
+    <div style="display:flex;justify-content:space-between;font-weight:600;font-size:.9rem"><span id="plabel"></span><span id="ppct"></span></div>
+    <div class="prog"><div id="pbar"></div></div>
+    <div id="items"></div>
+    <button class="btn gray" id="reset" data-i18n="reset"></button>
+  </section>
+
+  <section id="guide">
+    <h2><span data-i18n="guide_h"></span> &mdash; <span class="mname"></span></h2>
+    <div class="tip" id="gtip"></div>
+    <div id="glist"></div>
+  </section>
+
+  <section id="plan">
+    <h2 data-i18n="plan_h"></h2>
+    <div class="two">
+      <form class="card" id="pform">
+        <label><span data-i18n="city"></span><input name="city" maxlength="80"></label>
+        <label><span data-i18n="meet"></span><input name="meet" maxlength="200"></label>
+        <label><span data-i18n="shelter"></span><input name="shelter" maxlength="200"></label>
+        <label><span data-i18n="notes"></span><textarea name="notes" rows="3" maxlength="500"></textarea></label>
+        <button class="btn" data-i18n="save_plan"></button><span class="saved" id="saved"></span>
+      </form>
+      <div class="card">
+        <b data-i18n="my_pc"></b>
+        <form id="cform" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0">
+          <input name="name" data-i18n-ph="name" required maxlength="80">
+          <input name="num" data-i18n-ph="phone" required maxlength="20" inputmode="tel">
+          <input name="rel" data-i18n-ph="relation" maxlength="40">
+          <button class="btn" data-i18n="add"></button>
+        </form>
+        <div id="plist"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3 data-i18n="backup_h"></h3>
+      <p class="muted" data-i18n="backup_note"></p>
+      <div class="row">
+        <button class="btn gray" id="export" data-i18n="export"></button>
+        <label class="btn gray" style="margin:0;cursor:pointer"><span data-i18n="import"></span><input type="file" id="import" accept="application/json" hidden></label>
+        <span class="saved" id="impmsg"></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<a class="fab" href="tel:112" aria-label="SOS - call 112 now" title="SOS - 112"><b>SOS</b><small>112</small></a>
+
+<script>
+const DATA = /*DATA*/;
+const UI = /*UI*/;
+const TR = /*TR*/;
+const SAMPLE = [
+ {kind:'cyclone',sev:'red',place:'Puri',state:'Odisha',lat:19.81,lng:85.83,r:120},
+ {kind:'cyclone',sev:'orange',place:'Visakhapatnam',state:'Andhra Pradesh',lat:17.69,lng:83.22,r:90},
+ {kind:'cyclone',sev:'yellow',place:'Chennai',state:'Tamil Nadu',lat:13.08,lng:80.27,r:80},
+ {kind:'cyclone',sev:'orange',place:'Sundarbans',state:'West Bengal',lat:21.95,lng:88.85,r:100},
+ {kind:'cyclone',sev:'yellow',place:'Okha',state:'Gujarat',lat:22.47,lng:69.07,r:90},
+ {kind:'flood',sev:'red',place:'Guwahati',state:'Assam',lat:26.14,lng:91.74,r:70},
+ {kind:'flood',sev:'orange',place:'Patna',state:'Bihar',lat:25.59,lng:85.14,r:60},
+ {kind:'flood',sev:'red',place:'Alappuzha',state:'Kerala',lat:9.49,lng:76.34,r:60},
+ {kind:'flood',sev:'yellow',place:'Mumbai',state:'Maharashtra',lat:19.07,lng:72.88,r:50},
+ {kind:'flood',sev:'orange',place:'Cuttack',state:'Odisha',lat:20.46,lng:85.88,r:50}
+];
+let ALERTS=SAMPLE;
+const SNAP=/*SNAP*/;
+const SACHET_URL='https://sachet.ndma.gov.in/cap_public_website/FetchAllAlertDetails';
+const STATES=['Andhra Pradesh','Assam','Bihar','Gujarat','Kerala','Maharashtra','Odisha','Tamil Nadu','West Bengal','Other'];
+const SEVCOL={red:'#dc2626',orange:'#f97316',yellow:'#eab308'};
+
+const $=(s,e=document)=>e.querySelector(s), $$=(s,e=document)=>[...e.querySelectorAll(s)];
+const tel=n=>'tel:'+n.replace(/[^\d+]/g,'');
+function h(tag,a,...kids){const e=document.createElement(tag);
+  for(const[k,v]of Object.entries(a||{})){k==='class'?e.className=v:k.startsWith('on')?e.addEventListener(k.slice(2),v):e.setAttribute(k,v)}
+  kids.flat().forEach(c=>e.append(c instanceof Node?c:document.createTextNode(c==null?'':c)));return e}
+
+/* ---------- persistent storage: localStorage + IndexedDB mirror ---------- */
+const KEY='dpa_state_v2';
+let S={lang:'en',chosen:false,mode:'flood',checked:{},contacts:[],plan:{},sub:null};
+let phase='before',filter='all';
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('dpa_db',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function idbGet(){try{const db=await idb();return await new Promise(res=>{const q=db.transaction('kv').objectStore('kv').get(KEY);q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)})}catch(e){return null}}
+function idbSet(v){idb().then(db=>db.transaction('kv','readwrite').objectStore('kv').put(v,KEY)).catch(()=>{})}
+function persist(){
+  const s=JSON.stringify(S);let ok=false;
+  try{localStorage.setItem(KEY,s);ok=true}catch(e){}
+  idbSet(s);
+  $('#stTxt').textContent='✓ '+t('saved_dev')+' • '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+async function boot(){
+  let raw=null;try{raw=localStorage.getItem(KEY)}catch(e){}
+  if(!raw)raw=await idbGet();
+  if(raw){try{Object.assign(S,JSON.parse(raw))}catch(e){}}
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+}
+
+/* ---------- i18n ---------- */
+const t=(k,v)=>{let s=(UI[S.lang]&&UI[S.lang][k])||UI.en[k]||k;if(v)for(const x in v)s=s.split('{'+x+'}').join(v[x]);return s};
+const trl=()=>TR[S.lang]||{};
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  $$('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n));
+  $$('[data-i18n-ph]').forEach(e=>e.placeholder=t(e.dataset.i18nPh));
+  $('#tagline').textContent=t('tag_'+S.mode);$('#gtip').textContent=t('tip_'+S.mode);
+  $$('.mname').forEach(e=>e.textContent=t(S.mode==='flood'?'f_flood':'f_cyc'));
+  $('#langsel').value=S.lang;
+}
+
+/* ---------- mode ---------- */
+function setMode(m){S.mode=m;persist();document.body.classList.toggle('cyclone',m==='cyclone');
+  $('#modeSwitch').setAttribute('aria-checked',m==='cyclone');applyStatic();renderChecks();renderGuide()}
+
+/* ---------- contacts (built-in + My Plan) ---------- */
+function renderContacts(){
+  const q=$('#q').value.toLowerCase(),root=$('#clist');root.replaceChildren();
+  const cards=[];
+  const mine=S.contacts.filter(c=>(c.name+c.rel+c.num).toLowerCase().includes(q));
+  if(mine.length){
+    root.append(h('div',{class:'grp'},t('g_Mine')),h('div',{class:'grid'},mine.map(c=>h('div',{class:'card ct mine'},
+      h('div',{},h('b',{},c.name),h('small',{},c.rel||''),h('small',{class:'src'},t('mine_hint'))),
+      h('a',{class:'call',href:tel(c.num)},'☎ '+c.num)))));
+  }
+  const g={};
+  DATA.contacts.map(c=>{const x=(trl().contacts||{})[c.id]||[c.name,c.note];return{...c,name:x[0],note:x[1]}})
+    .filter(c=>(c.name+c.note+c.number).toLowerCase().includes(q)).forEach(c=>(g[c.group]=g[c.group]||[]).push(c));
+  const gk={'National':'g_National','Medical & Police':'g_Medical','State & District':'g_State','Support':'g_Support'};
+  for(const[k,list]of Object.entries(g)){
+    root.append(h('div',{class:'grp'},t(gk[k])),h('div',{class:'grid'},list.map(c=>h('div',{class:'card ct'},
+      h('div',{},h('b',{},c.name),h('small',{},c.note),h('small',{class:'src'},'✓ '+t('source')+': '+c.source)),
+      h('a',{class:'call',href:tel(c.number)},'☎ '+c.number)))));
+  }
+  if(!mine.length&&!Object.keys(g).length)root.append(h('p',{class:'muted'},t('no_match')));
+}
+
+/* ---------- checklist ---------- */
+function renderChecks(){
+  const items=((trl().checklists||{})[S.mode]||{})[phase]||DATA.checklists[S.mode][phase];
+  const key=i=>S.mode+':'+phase+':'+i,root=$('#items');root.replaceChildren();
+  items.forEach((x,i)=>{const cb=h('input',{type:'checkbox'});cb.checked=!!S.checked[key(i)];
+    cb.onchange=()=>{cb.checked?S.checked[key(i)]=true:delete S.checked[key(i)];persist();renderChecks()};
+    root.append(h('label',{class:'card item'+(cb.checked?' done':'')},cb,h('span',{},x)))});
+  const d=items.filter((_,i)=>S.checked[key(i)]).length,p=Math.round(d/items.length*100);
+  $('#plabel').textContent=t('done_of',{d:d,n:items.length});$('#ppct').textContent=p+'%';$('#pbar').style.width=p+'%';
+}
+function renderGuide(){
+  const tr=(trl().guidelines||{})[S.mode];
+  const list=tr?tr.map(x=>({title:x[0],steps:x[1]})):DATA.guidelines[S.mode];
+  const root=$('#glist');root.replaceChildren();
+  list.forEach((s,i)=>{const d=h('details',{class:'card'},h('summary',{},s.title),h('ol',{},s.steps.map(x=>h('li',{},x))));if(i===0)d.open=true;root.append(d)});
+}
+
+/* ---------- plan ---------- */
+function renderPlan(){
+  const f=$('#pform').elements,p=S.plan||{};f.city.value=p.city||'';f.meet.value=p.meet||'';f.shelter.value=p.shelter||'';f.notes.value=p.notes||'';
+  const root=$('#plist');root.replaceChildren();
+  if(!S.contacts.length)root.append(h('p',{class:'muted'},t('no_pc')));
+  S.contacts.forEach(c=>root.append(h('div',{class:'pc'},h('div',{},h('b',{},c.name),h('small',{class:'muted'},' '+(c.rel||''))),
+    h('div',{},h('a',{href:tel(c.num),style:'font-weight:700;color:var(--p);text-decoration:none'},c.num),
+      h('button',{'aria-label':'Remove',onclick:()=>{S.contacts=S.contacts.filter(x=>x.id!==c.id);persist();renderPlan();renderContacts()}},'×')))))
+}
+
+/* ---------- alert map ---------- */
+let map=null,layer=null,userMk=null,leafletFailed=false;
+let userLoc=null,dataSrc='sample',dataTime=null;
+const visible=()=>ALERTS.filter(a=>filter==='all'||a.kind===filter);
+const kindName=k=>t(k==='flood'?'kind_flood':k==='cyclone'?'kind_cyclone':'kind_other');
+const SEVRANK={red:0,orange:1,yellow:2};
+const withDist=a=>userLoc?Math.round(km(userLoc.lat,userLoc.lng,a.lat,a.lng)):null;
+
+/* ----- live official data: NDMA SACHET (via Start-App.bat helper), else saved snapshot, else sample ----- */
+function norm(a){
+  const c=String(a.centroid||'').split(',').map(Number),lng=c[0],lat=c[1];
+  if(!isFinite(lat)||!isFinite(lng))return null;
+  const dt=a.disaster_type||'';
+  const kind=/cyclone|surge|squall|depression/i.test(dt)?'cyclone':/flood|rain|inundat|dam |river|water/i.test(dt)?'flood':'other';
+  const col=String(a.severity_color||'').toLowerCase();
+  return {kind,sev:col==='red'?'red':col==='orange'?'orange':'yellow',place:a.area_description||'-',
+    state:String(a.alert_source||'').replace(/\s*SDMA$/i,''),lat,lng,
+    r:Math.max(Math.round(Math.sqrt((+a.area_covered||0)/Math.PI)),12),type:dt,msg:a.warning_message||'',end:a.effective_end_time||'',live:true};
+}
+function useData(list,src,time){
+  const n=list.map(norm).filter(Boolean).sort((a,b)=>SEVRANK[a.sev]-SEVRANK[b.sev]);
+  if(!n.length&&src==='live'){ALERTS=[];dataSrc='live';dataTime=time;return true}
+  if(!n.length&&src!=='sample')return false;
+  ALERTS=n.length?n:SAMPLE;dataSrc=n.length?src:'sample';dataTime=time;return true;
+}
+async function getJson(url,ms){const c=new AbortController(),id=setTimeout(()=>c.abort(),ms);
+  try{const r=await fetch(url,{signal:c.signal,cache:'no-store'});if(!r.ok)throw new Error(r.status);const j=await r.json();if(!Array.isArray(j))throw new Error('bad');return j}finally{clearTimeout(id)}}
+async function loadAlerts(){
+  const urls=[];
+  if(location.protocol.indexOf('http')===0)urls.push('/api/alerts');   // same-origin helper from Start-App.bat
+  urls.push(SACHET_URL);                                               // direct (works only if SACHET allows CORS)
+  for(const u of urls){try{const j=await getJson(u,12000);if(useData(j,'live',new Date()))break}catch(e){}}
+  if(dataSrc!=='live'&&SNAP.data&&SNAP.data.length)useData(SNAP.data,'snap',SNAP.t?new Date(SNAP.t):null);
+  renderAlerts();renderSms();
+}
+function renderSource(){
+  const el=$('#dsrc'),tm=dataTime?dataTime.toLocaleString([], {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+  el.textContent=dataSrc==='live'?'● '+t('src_live',{time:tm}):dataSrc==='snap'?t('src_snap',{time:tm}):t('src_sample');
+}
+function renderAlerts(){
+  renderSource();
+  const root=$('#alerts');root.replaceChildren();
+  let list=visible();
+  if(userLoc)list=list.slice().sort((a,b)=>withDist(a)-withDist(b));
+  list.slice(0,60).forEach(a=>{const d=withDist(a);
+    root.append(h('div',{class:'card'},
+      h('div',{class:'row'},h('span',{class:'badge sev-'+a.sev},t('sevs_'+a.sev)),h('b',{},a.type||kindName(a.kind)),a.live?'':h('span',{class:'muted'},'('+t('sample_tag')+')')),
+      h('div',{style:'margin-top:6px;font-weight:700'},a.place),
+      h('div',{class:'muted'},a.state+(d!=null?' • '+t('km_away',{km:d}):'')),
+      a.msg?h('div',{style:'margin-top:6px;font-size:.85rem;line-height:1.45'},a.msg.length>260?a.msg.slice(0,260)+'…':a.msg):'',
+      a.end?h('div',{class:'muted',style:'margin-top:4px'},t('valid_till')+': '+a.end):'')) });
+  drawMap();
+}
+function loadLeaflet(){return new Promise((res,rej)=>{
+  if(window.L)return res();
+  const l=document.createElement('link');l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css';document.head.append(l);
+  const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';s.onload=res;s.onerror=rej;document.head.append(s)})}
+async function initMap(){
+  if(map||leafletFailed)return;
+  try{await loadLeaflet();
+    $('#mapview').replaceChildren();$('#mapview').style.display='block';$('#mapview').style.padding='0';
+    map=L.map("mapview").setView([21.5,80],4.5);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:12,attribution:'Tiles &copy; Esri'}).addTo(map);
+    layer=L.layerGroup().addTo(map);drawMap();
+  }catch(e){leafletFailed=true;$('#mapview').textContent=t('map_offline')}
+}
+function drawMap(){
+  if(!map)return;layer.clearLayers();
+  visible().forEach(a=>{const c=SEVCOL[a.sev];
+    L.circle([a.lat,a.lng],{radius:a.r*1000,color:c,fillColor:c,fillOpacity:.25,weight:2}).addTo(layer)
+      .bindPopup(h('div',{},h('b',{},a.place+', '+a.state),h('br'),(a.type||kindName(a.kind))+' - '+t('sevs_'+a.sev)+(a.live?'':' ('+t('sample_tag')+')')));
+    L.circleMarker([a.lat,a.lng],{radius:6,color:'#fff',weight:2,fillColor:c,fillOpacity:1}).addTo(layer)});
+}
+function km(a,b,c,d){const r=x=>x*Math.PI/180,R=6371,dl=r(c-a),dn=r(d-b);
+  const x=Math.sin(dl/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+async function locate(){
+  const out=$('#nearest');out.style.color='';
+  if(!navigator.geolocation){out.textContent=t('loc_fail');return}
+  if(window.isSecureContext===false){out.textContent=t('loc_insecure');return}
+  // If the user already blocked location, getCurrentPosition would fail silently - explain how to re-enable it.
+  try{const p=await navigator.permissions.query({name:'geolocation'});if(p.state==='denied'){out.style.color='#b91c1c';out.textContent=t('loc_denied');return}}catch(e){}
+  out.textContent=t('loc_asking');   // the browser / phone shows its own "Allow location?" prompt now
+  navigator.geolocation.getCurrentPosition(p=>{
+    userLoc={lat:p.coords.latitude,lng:p.coords.longitude};
+    const here=visible().filter(a=>km(userLoc.lat,userLoc.lng,a.lat,a.lng)<=a.r+10&&a.sev!=='none');
+    const best=visible().map(a=>({a,d:km(userLoc.lat,userLoc.lng,a.lat,a.lng)})).sort((x,y)=>x.d-y.d)[0];
+    if(here.length){out.style.color='#b91c1c';out.textContent=t('in_area',{n:here.length})}
+    else{out.style.color='#047857';out.textContent=t('safe_area')+(best?' '+t('nearest',{place:best.a.place,km:Math.round(best.d)}):'')}
+    renderAlerts();
+    if(map){if(userMk)map.removeLayer(userMk);userMk=L.marker([userLoc.lat,userLoc.lng]).addTo(map);map.flyTo([userLoc.lat,userLoc.lng],here.length||!best?9:6)}
+  },err=>{out.style.color='#b91c1c';out.textContent=err.code===1?t('loc_denied'):t('loc_fail')},{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+}
+
+/* ---------- SMS alerts (registration saved locally + demo) ---------- */
+function renderSms(){
+  const f=$('#sform').elements;
+  const sel=f.state;if(!sel.options.length)STATES.forEach(s=>sel.append(h('option',{value:s},s)));
+  if(S.sub){f.phone.value=S.sub.phone;f.state.value=S.sub.state;f.flood.checked=S.sub.kinds.includes('flood');f.cyclone.checked=S.sub.kinds.includes('cyclone');
+    const kinds=S.sub.kinds.map(kindName).join(' + ');
+    $('#sstatus').textContent='✓ '+t('subscribed',{kinds:kinds,state:S.sub.state,phone:S.sub.phone});
+  }else $('#sstatus').textContent='';
+  updateSmsLink(demoText());
+}
+function pickAlert(){
+  const kinds=S.sub?S.sub.kinds:['flood','cyclone'];
+  return ALERTS.find(a=>S.sub&&a.state===S.sub.state&&kinds.includes(a.kind))||ALERTS.find(a=>kinds.includes(a.kind))||ALERTS[0]||SAMPLE[0];
+}
+function demoText(){const a=pickAlert();return t('sms_demo',{kind:kindName(a.kind),sev:t('sevs_'+a.sev),place:a.place})}
+function updateSmsLink(txt){const ph=S.sub?'+91'+S.sub.phone:'';$('#smslink').href='sms:'+ph+'?body='+encodeURIComponent(txt)}
+function simulate(){
+  const txt=demoText(),box=$('#smsbox');
+  box.replaceChildren(h('small',{},'NDMA-ALERT • '+new Date().toLocaleTimeString()),txt);box.style.display='block';
+  updateSmsLink(txt);
+  try{if('Notification'in window&&Notification.permission==='granted')new Notification(t('title'),{body:txt})}catch(e){}
+}
+
+/* ---------- wiring ---------- */
+function updateNet(){const on=navigator.onLine;$('#net').classList.toggle('off',!on);$('#netTxt').textContent=t(on?'online':'offline')}
+function showTab(tab){$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));$$('section').forEach(s=>s.classList.toggle('on',s.id===tab));
+  if(tab==='map'){initMap().then(()=>{if(map)setTimeout(()=>map.invalidateSize(),50)})}}
+function renderAll(){applyStatic();updateNet();renderContacts();renderChecks();renderGuide();renderPlan();renderAlerts();renderSms();
+  $('#stTxt').textContent='✓ '+t('saved_dev')}
+function setLang(l){S.lang=l;S.chosen=true;persist();$('#langov').style.display='none';renderAll()}
+
+$('#modeSwitch').onclick=()=>setMode(S.mode==='flood'?'cyclone':'flood');
+$('#mFlood').onclick=()=>setMode('flood');$('#mCyc').onclick=()=>setMode('cyclone');
+$('#tabs').onclick=e=>{if(e.target.dataset.t)showTab(e.target.dataset.t)};
+$('#phases').onclick=e=>{const p=e.target.dataset.p;if(!p)return;phase=p;$$('#phases button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));renderChecks()};
+$('#reset').onclick=()=>{Object.keys(S.checked).filter(k=>k.startsWith(S.mode+':'+phase+':')).forEach(k=>delete S.checked[k]);persist();renderChecks()};
+$('#q').oninput=renderContacts;
+$('#langsel').onchange=e=>setLang(e.target.value);
+$('#filters').onclick=e=>{const f=e.target.dataset.f;if(!f)return;filter=f;$$('#filters .chip[data-f]').forEach(b=>b.classList.toggle('on',b.dataset.f===f));renderAlerts()};
+$('#locate').onclick=locate;
+$('#refresh').onclick=loadAlerts;
+setInterval(()=>{if(document.querySelector('#map.on'))loadAlerts()},300000);
+$('#pform').onsubmit=e=>{e.preventDefault();const f=e.target.elements;S.plan={city:f.city.value,meet:f.meet.value,shelter:f.shelter.value,notes:f.notes.value};
+  persist();$('#saved').textContent='✓ '+t('saved');setTimeout(()=>$('#saved').textContent='',2000)};
+$('#cform').onsubmit=e=>{e.preventDefault();const f=e.target.elements;
+  S.contacts.push({id:'p'+Date.now(),name:f.name.value.trim(),num:f.num.value.trim(),rel:f.rel.value.trim()});
+  persist();e.target.reset();renderPlan();renderContacts()};
+$('#sform').onsubmit=e=>{e.preventDefault();const f=e.target.elements;
+  if(!/^[6-9]\d{9}$/.test(f.phone.value.trim())){$('#sstatus').style.color='#b91c1c';$('#sstatus').textContent=t('sms_bad_phone');return}
+  $('#sstatus').style.color='#047857';
+  const kinds=['flood','cyclone'].filter(k=>f[k].checked);if(!kinds.length)kinds.push('flood','cyclone');
+  S.sub={phone:f.phone.value.trim(),state:f.state.value,kinds:kinds};persist();renderSms();
+  try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(x){}};
+$('#unsub').onclick=()=>{S.sub=null;persist();$('#sform').reset();renderSms()};
+$('#simulate').onclick=simulate;
+$('#export').onclick=()=>{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=h('a',{href:URL.createObjectURL(b),download:'disaster-prep-backup.json'});document.body.append(a);a.click();a.remove()};
+$('#import').onchange=e=>{const fl=e.target.files[0];if(!fl)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(typeof d!=='object'||!d.checked&&!d.contacts)throw 0;Object.assign(S,d);persist();renderAll();setMode(S.mode);$('#impmsg').textContent=t('import_ok')}catch(x){$('#impmsg').textContent=t('import_bad')}};r.readAsText(fl)};
+addEventListener('online',updateNet);addEventListener('offline',updateNet);
+
+(async function start(){
+  const sel=$('#langsel');UI.langs.forEach(([c,n])=>{sel.append(h('option',{value:c},n));
+    $('#langbtns').append(h('button',{class:'lbtn',onclick:()=>setLang(c)},n))});
+  await boot();
+  document.body.classList.toggle('cyclone',S.mode==='cyclone');
+  renderAll();
+  loadAlerts();
+  if(!S.chosen)$('#langov').style.display='flex';
+})();
+</script>
+</body>
+</html>
